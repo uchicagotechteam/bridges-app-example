@@ -12,18 +12,7 @@ import {
   View
 } from 'react-native';
 
-function getMovies() {
-    return fetch('https://www.google.com/')
-      .then((response) => response._bodyText)
-      .then((responseText) => {
-        console.log(responseText);
-        return responseText;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-}
-
+var bridges_api_client = require('./bridges_client');
 
 export default class BridgesAppExample extends Component {
     constructor(props) {
@@ -34,14 +23,12 @@ export default class BridgesAppExample extends Component {
     }
 
     componentDidMount() {
-        getMovies().then(response => {
+        bridges_api_client.getQuestions().then(response => {
             this.setState({coolText: response})
         });
     }
 
     render() {
-        var coolText = getMovies();
-
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
