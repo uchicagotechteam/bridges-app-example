@@ -2,12 +2,9 @@
 
 To get started, clone the repository with `git clone <repo_url>` where `<repo_url>` is given when you click on the green clone box.
 
-To start the app do (ignoring $ symbols):
+To start the app do `npm install` and then either
 
-```
-$ npm install
-$ react-native run-ios
-```
+`react-native run-ios` or `react-native run-android`
 
 If `npm install` gives you a permission error, then try:
 `sudo npm install`
