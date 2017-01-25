@@ -14,58 +14,77 @@ import {
 
 var bridges_api_client = require('./bridges_client');
 
+
 export default class BridgesAppExample extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            coolText: "no cool text to display yet!"
+            'response': []
         }
     }
 
     componentDidMount() {
         bridges_api_client.getQuestions().then(response => {
-            this.setState({coolText: response})
+            this.setState({
+                'response': response
+            });
+            console.log(this.state);
         });
     }
 
     render() {
         return (
+            /* <ListView
+                dataSource={this.state.response}
+                renderRow={(rowData) =><Text>{rowData}</Text>}/> */
+
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome to React Native!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started, edit index.ios.js
-                </Text>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'}
-                    Cmd+D or shake for dev menu
-                </Text>
-                <Text>
-                    {this.state.coolText}
-                </Text>
+                {this.state.response.map(function(question) {
+                    return (
+                        <View style={{textAlign: 'left', paddingBottom: 20}}>
+                            <Text style={styles.title}>
+                                {question.title}
+                            </Text>
+                            <Text style={styles.description}>
+                                {question.description}
+                            </Text>
+                        </View>
+                    );
+                })}
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+
+    title: {
+        textAlign: 'left',
+        fontWeight: 'bold'
+    },
+
+    description: {
+        textAlign: 'left',
+
+    },
+
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
 });
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);

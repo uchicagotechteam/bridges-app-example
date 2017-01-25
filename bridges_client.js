@@ -1,9 +1,9 @@
 function getQuestions() {
-    return fetch('https://www.google.com/')
-      .then((response) => response._bodyText)
-      .then((responseText) => {
-        console.log(responseText);
-        return responseText;
+    return fetch('http://localhost:8000/questions/')
+      .then((response) => response.json())
+      .then((responseJson) => {
+    //    console.log(responseJson.results[0]);
+        return responseJson.results;
       })
       .catch((error) => {
         console.error(error);
