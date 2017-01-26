@@ -1,5 +1,5 @@
 function getQuestions() {
-    return fetch('http://localhost:8000/questions/')
+    return fetch('http://10.150.39.215:8000/questions/')
       .then((response) => response.json())
       .then((responseJson) => {
     //    console.log(responseJson.results[0]);
