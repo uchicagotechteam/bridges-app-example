@@ -8,12 +8,13 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  ScrollView,
   Text,
   View
 } from 'react-native';
 
 var bridges_api_client = require('./bridges_client');
-var styles = require('./styles/question_feed').questionFeed;
+var questionFeedStyles = require('./styles/question_feed').questionFeed;
 
 
 export default class BridgesAppExample extends Component {
@@ -35,24 +36,26 @@ export default class BridgesAppExample extends Component {
 
     render() {
         return (
-            /* <ListView
-                dataSource={this.state.response}
-                renderRow={(rowData) =><Text>{rowData}</Text>}/> */
+            <ScrollView>
+                <Text style={questionFeedStyles.header}>
+                    Questions
+                </Text>
 
-            <View style={styles.container}>
-                {this.state.response.map(function(question) {
-                    return (
-                        <View style={{textAlign: 'left', paddingBottom: 20}}>
-                            <Text style={styles.title}>
-                                {question.title}
-                            </Text>
-                            <Text style={styles.description}>
-                                {question.description}
-                            </Text>
-                        </View>
-                    );
-                })}
-            </View>
+                <View style={questionFeedStyles.container}>
+                    {this.state.response.map(function(question) {
+                        return (
+                            <View style={questionFeedStyles.questionRow}>
+                                <Text style={questionFeedStyles.title}>
+                                    {question.title}
+                                </Text>
+                                <Text style={questionFeedStyles.description}>
+                                    {question.description}
+                                </Text>
+                            </View>
+                        );
+                    })}
+                </View>
+            </ScrollView>
         );
     }
 }

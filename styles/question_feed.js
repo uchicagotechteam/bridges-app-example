@@ -2,10 +2,8 @@ import {StyleSheet} from 'react-native';
 
 const questionFeed = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
 
     title: {
@@ -13,9 +11,22 @@ const questionFeed = StyleSheet.create({
         fontWeight: 'bold'
     },
 
+    header: {
+        paddingTop: 15,
+        paddingBottom: 10,
+        textAlign: 'center',
+        marginTop: 0,
+        fontWeight: 'bold',
+        fontSize: 35,
+    },
+
     description: {
         textAlign: 'left',
+    },
 
+    questionRow: {
+        marginBottom: 20,
+        backgroundColor: '#F5FCFF'
     },
 
     welcome: {
