@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 var bridges_api_client = require('./bridges_client');
+var styles = require('./styles/question_feed').questionFeed;
 
 
 export default class BridgesAppExample extends Component {
@@ -55,36 +56,5 @@ export default class BridgesAppExample extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-
-    title: {
-        textAlign: 'left',
-        fontWeight: 'bold'
-    },
-
-    description: {
-        textAlign: 'left',
-
-    },
-
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);
