@@ -8,46 +8,56 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
+  ScrollView,
   Text,
   View
 } from 'react-native';
 
-export default class BridgesAppExample extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+var bridges_api_client = require('./bridges_client');
+var questionFeedStyles = require('./styles/question_feed').questionFeed;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+
+export default class BridgesAppExample extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            'response': []
+        }
+    }
+
+    componentDidMount() {
+        bridges_api_client.getQuestions().then(response => {
+            this.setState({
+                'response': response
+            });
+            console.log(this.state);
+        });
+    }
+
+    render() {
+        return (
+            <ScrollView>
+                <Text style={questionFeedStyles.header}>
+                    Questions
+                </Text>
+
+                <View style={questionFeedStyles.container}>
+                    {this.state.response.map(function(question) {
+                        return (
+                            <View style={questionFeedStyles.questionRow}>
+                                <Text style={questionFeedStyles.title}>
+                                    {question.title}
+                                </Text>
+                                <Text style={questionFeedStyles.description}>
+                                    {question.description}
+                                </Text>
+                            </View>
+                        );
+                    })}
+                </View>
+            </ScrollView>
+        );
+    }
+}
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);
