@@ -27,6 +27,9 @@ import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 
+var bridges_api_client = require('./bridges_client');
+var questionFeedStyles = require('./styles/question_feed').questionFeed;
+
 export default class BridgesAppExample extends Component {
   constructor() {
     super();
