@@ -10,7 +10,6 @@ import {
   StyleSheet,
   ScrollView,
   Navigator,
-  ScrollView,
   Text,
   View
 } from 'react-native';
@@ -22,23 +21,24 @@ import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 
 export default class BridgesAppExample extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            'response': []
-        }
-    }
+  constructor() {
+    super();
+    this.state = {selectedTab: 'tabOne'}
+  }
+  setTab(tabId) {
+    this.setState({selectedTab: tabId})
+  }
 
-    componentDidMount() {
-        bridges_api_client.getQuestions().then(response => {
-            this.setState({
-                'response': response
-            });
-            console.log(this.state);
-        });
-    }
+  _renderScene(route, navigator) {
+    var globalNavigatorProps = { navigator }
 
-    render() {
+    switch(route.ident) {
+      case "PeopleIndex":
+        return (
+          <PeopleIndexScreen
+            {...globalNavigatorProps} />
+        )
+      case "PersonShow":
         return (
         <PersonShowScreen
             {...globalNavigatorProps}
@@ -77,8 +77,8 @@ export default class BridgesAppExample extends Component {
           initialRoute={{ident: "Profile"}}
           ref="appNavigator"
           renderScene={this._renderScene} />
-          </TabNavigator.Item>
-      </TabNavigator>
+        </TabNavigator.Item>
+     </TabNavigator>
     )
   }
 }

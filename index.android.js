@@ -4,17 +4,12 @@
  * @flow
  */
 
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   ScrollView,
+  Navigator,
   Text,
   View
 } from 'react-native';
@@ -82,8 +77,8 @@ export default class BridgesAppExample extends Component {
           initialRoute={{ident: "Profile"}}
           ref="appNavigator"
           renderScene={this._renderScene} />
-          </TabNavigator.Item>
-      </TabNavigator>
+        </TabNavigator.Item>
+     </TabNavigator>
     )
   }
 }
