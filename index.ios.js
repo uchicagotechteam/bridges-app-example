@@ -9,13 +9,18 @@ import {
   AppRegistry,
   StyleSheet,
   ScrollView,
+  Navigator,
   Text,
   View
 } from 'react-native';
 
 var bridges_api_client = require('./bridges_client');
-var questionFeedStyles = require('./styles/question_feed').questionFeed;
 
+import TabNavigator from 'react-native-tab-navigator';
+
+import PersonShowScreen from './app/screens/PersonShowScreen'
+import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
+import ProfileScreen from './app/screens/ProfileScreen'
 
 export default class BridgesAppExample extends Component {
     constructor(props) {
@@ -36,28 +41,47 @@ export default class BridgesAppExample extends Component {
 
     render() {
         return (
-            <ScrollView>
-                <Text style={questionFeedStyles.header}>
-                    Questions
-                </Text>
-
-                <View style={questionFeedStyles.container}>
-                    {this.state.response.map(function(question) {
-                        return (
-                            <View style={questionFeedStyles.questionRow}>
-                                <Text style={questionFeedStyles.title}>
-                                    {question.title}
-                                </Text>
-                                <Text style={questionFeedStyles.description}>
-                                    {question.description}
-                                </Text>
-                            </View>
-                        );
-                    })}
-                </View>
-            </ScrollView>
-        );
+        <PersonShowScreen
+            {...globalNavigatorProps}
+            question = {route.question}/>
+        )
+      case "Profile":
+        return (
+        <ProfileScreen
+            {...globalNavigatorProps} />
+        )
+      default:
+        return (
+        <PeopleIndexScreen
+          {...globalNavigatorProps} />
+        )
     }
+  }
+
+  render() {
+    return (
+      <TabNavigator>
+        <TabNavigator.Item
+        systemIcon="search"
+        selected={this.state.selectedTab == 'tabOne'}
+        onPress={() => this.setTab('tabOne')}>
+          <Navigator
+          initialRoute={{ident: "PeopleIndex"}}
+          ref="appNavigator"
+          renderScene={this._renderScene} />
+        </TabNavigator.Item>
+        <TabNavigator.Item
+        systemIcon="contacts"
+        selected={this.state.selectedTab == 'tabTwo'}
+        onPress={() => this.setTab('tabTwo')}>
+          <Navigator
+          initialRoute={{ident: "Profile"}}
+          ref="appNavigator"
+          renderScene={this._renderScene} />
+          </TabNavigator.Item>
+      </TabNavigator>
+    )
+  }
 }
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);
