@@ -20,7 +20,6 @@ var bridges_api_client = require('./bridges_client');
 import TabNavigator from 'react-native-tab-navigator';
 
 var bridges_api_client = require('./bridges_client');
-var questionFeedStyles = require('./styles/question_feed').questionFeed;
 
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
