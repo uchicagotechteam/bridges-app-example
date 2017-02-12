@@ -19,15 +19,11 @@ import {
   View
 } from 'react-native';
 
-var bridges_api_client = require('./bridges_client');
-
 import TabNavigator from 'react-native-tab-navigator';
 
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
-
-var bridges_api_client = require('./bridges_client');
 
 export default class BridgesAppExample extends Component {
   constructor() {

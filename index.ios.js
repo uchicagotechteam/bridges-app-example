@@ -15,11 +15,7 @@ import {
   View
 } from 'react-native';
 
-var bridges_api_client = require('./bridges_client');
-
 import TabNavigator from 'react-native-tab-navigator';
-
-var bridges_api_client = require('./bridges_client');
 
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
