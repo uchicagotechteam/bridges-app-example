@@ -59,8 +59,12 @@ export default class LoginScreen extends Component {
       .then(response => {
           if (response.status === 200) {
               // Server sends 200 if user is properly logged in
-              SInfo.setItem('email', email, {});
-              SInfo.setItem('password', password, {});
+              SInfo.setItem('email', email, {
+                  sharedPreferencesName: 'shared_preferences'
+              });
+              SInfo.setItem('password', password, {
+                  sharedPreferencesName: 'shared_preferences'
+              });
 
               this.setState({
                   'isError': false

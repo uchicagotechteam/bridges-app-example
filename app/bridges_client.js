@@ -4,8 +4,12 @@ const base64 = require('base-64');
 import SInfo from 'react-native-sensitive-info';
 
 function generateHeaders(callback) {
-    return SInfo.getItem('email', {}).then((email) => {
-        SInfo.getItem('password', {}).then((password) => {
+    return SInfo.getItem('email', {
+        sharedPreferencesName: 'shared_preferences'
+    }).then((email) => {
+        SInfo.getItem('password', {
+            sharedPreferencesName: 'shared_preferences'
+        }).then((password) => {
             if (email && password) {
                 var headers = new Headers();
                 headers.append('Authorization', 'Basic ' + base64.encode(email + ':' + password));
