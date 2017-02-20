@@ -22,10 +22,17 @@ var bridges_teal = settings.bridges_teal;
 
 // Assets and images
 const { width, height } = Dimensions.get("window");
-const backgroundImage = require("./images/bridges_student.jpg");
 const checkmark = require("./images/bridges_logo.png");
 const lockIcon = require("./images/input_lock.png");
 const personIcon = require("./images/input_person.png");
+
+var bridges_student = require("./images/login_backgrounds/bridges_student.jpg");
+var bridges_wheelchair = require("./images/login_backgrounds/bridges_wheelchair.jpg");
+
+
+var candidateImages = [bridges_student, bridges_wheelchair];
+
+const backgroundImage = candidateImages[Math.floor(Math.random() * candidateImages.length)];
 
 
 export default class LoginScreen extends Component {
@@ -45,14 +52,15 @@ export default class LoginScreen extends Component {
   }
 
   _submitCredentials() {
-      var email = this.state.inputEmail;
+      var email = this.state.inputEmail.trim().toLowerCase();
       var password = this.state.inputPassword;
 
       bridges_client.login(email, password)
       .then(response => {
           if (response.status === 200) {
-              SInfo.setItem('email', this.state.inputEmail, {});
-              SInfo.setItem('password', this.state.inputPassword, {});
+              // Server sends 200 if user is properly logged in
+              SInfo.setItem('email', email, {});
+              SInfo.setItem('password', password, {});
 
               this.setState({
                   'isError': false
@@ -144,6 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoWrap: {
+    flex: 1,
     marginBottom: 100,
     backgroundColor: "transparent"
   },
