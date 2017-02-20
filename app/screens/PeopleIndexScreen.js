@@ -18,9 +18,9 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
-var bridges_api_client = require('./bridges_client');
+const response = [];
 
-const response = []
+var bridges_client = require('../bridges_client');
 
 export default class PeopleIndexScreen extends Component {
 constructor(props) {
@@ -32,15 +32,15 @@ constructor(props) {
     }
   }
 
-  componentDidMount() {
-        bridges_api_client.getQuestions().then(response => {
+  componentWillMount() {
+        bridges_client.getQuestions(function(response) {
             this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
             });
-            console.log(response)
+            console.log('el response', response)
             console.log(this.state)
-        });
+        }.bind(this));
     }
 
   render() {
@@ -50,7 +50,7 @@ constructor(props) {
         <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Bridges from School to Work</Text>
         <ListView
           dataSource = {this.state.peopleDataSource}
-          renderRow={(question) => {return this._renderPersonRow(question)}} 
+          renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
           style = {{marginBottom: 50}}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
@@ -74,7 +74,7 @@ constructor(props) {
   _navigateToPersonShow(question) {
     this.props.navigator.push({
       ident: "PersonShow",
-      question: question 
+      question: question
     })
   }
 }

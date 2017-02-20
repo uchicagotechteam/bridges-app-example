@@ -30,10 +30,11 @@ constructor(props) {
       'response': [],
       peopleDataSource: ds.cloneWithRows(response)
     }
+    this.APIClient = props.APIClient;
   }
 
   componentDidMount() {
-        bridges_api_client.getQuestions().then(response => {
+        APIClient.getQuestions().then(response => {
             this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)

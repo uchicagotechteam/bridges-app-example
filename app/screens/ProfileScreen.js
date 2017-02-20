@@ -18,9 +18,9 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
-var bridges_api_client = require('./bridges_client');
-
 const response = []
+
+var bridges_client = require('../bridges_client');
 
 export default class ProfileScreen extends Component {
 constructor(props) {
@@ -33,7 +33,7 @@ constructor(props) {
   }
 
   componentDidMount() {
-        bridges_api_client.getQuestions().then(response => {
+    bridges_client.getQuestions().then(response => {
             this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
     marginLeft: 30
   },
   info: {
-    marginTop: 25, 
+    marginTop: 25,
     marginLeft: 10,
     fontSize: 20
   }
- 
+
 });
 
 module.exports = ProfileScreen
