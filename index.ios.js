@@ -73,7 +73,6 @@ export default class BridgesAppExample extends Component {
       let hideTabBarSceneStyle = null;
 
       if (this.state.selectedTab === 'tabOne') {
-          console.log('Eureka!', this.state.selectedTab);
           hideTabBar = { height: hiddenTabBarHeight, overflow: 'hidden' };
           hideTabBarSceneStyle = { paddingBottom: hiddenTabBarHeight };
       }

@@ -38,8 +38,6 @@ constructor(props) {
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
             });
-            console.log(response)
-            console.log(this.state)
         });
     }
 
