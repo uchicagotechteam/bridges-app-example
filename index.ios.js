@@ -10,8 +10,8 @@ import {
   StyleSheet,
   ScrollView,
   Navigator,
-  Text,
   TabBarIOS,
+  Text,
   View
 } from 'react-native';
 
@@ -81,7 +81,7 @@ export default class BridgesAppExample extends Component {
       return (
           <TabBarIOS>
               <TabBarIOS.Item
-                  systemIcon="login"
+                  systemIcon="contacts"
                   selected={this.state.selectedTab == 'tabOne'}
                   onPress={() => this.setTab('tabOne')}>
                   <Navigator
