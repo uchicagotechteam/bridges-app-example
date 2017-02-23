@@ -11,6 +11,7 @@ import {
   ScrollView,
   Navigator,
   Text,
+  TabBarIOS,
   View
 } from 'react-native';
 
@@ -78,11 +79,8 @@ export default class BridgesAppExample extends Component {
       }
 
       return (
-          <TabNavigator
-              tabBarStyle={hideTabBar}
-              sceneStyle={hideTabBarSceneStyle} >
-
-              <TabNavigator.Item
+          <TabBarIOS>
+              <TabBarIOS.Item
                   systemIcon="login"
                   selected={this.state.selectedTab == 'tabOne'}
                   onPress={() => this.setTab('tabOne')}>
@@ -90,9 +88,9 @@ export default class BridgesAppExample extends Component {
                       initialRoute={{ident: "Login"}}
                       ref="appNavigator"
                       renderScene={this._renderScene} />
-             </TabNavigator.Item>
+              </TabBarIOS.Item>
 
-             <TabNavigator.Item
+             <TabBarIOS.Item
                   systemIcon="search"
                   selected={this.state.selectedTab == 'tabTwo'}
                   onPress={() => this.setTab('tabTwo')}>
@@ -100,9 +98,9 @@ export default class BridgesAppExample extends Component {
                       initialRoute={{ident: "PeopleIndex"}}
                       ref="appNavigator"
                       renderScene={this._renderScene} />
-            </TabNavigator.Item>
+              </TabBarIOS.Item>
 
-            <TabNavigator.Item
+            <TabBarIOS.Item
                   systemIcon="contacts"
                   selected={this.state.selectedTab == 'tabThree'}
                   onPress={() => this.setTab('tabThree')}
@@ -111,8 +109,8 @@ export default class BridgesAppExample extends Component {
                       initialRoute={{ident: "Profile"}}
                       ref="appNavigator"
                       renderScene={this._renderScene} />
-                  </TabNavigator.Item>
-       </TabNavigator>
+              </TabBarIOS.Item>
+       </TabBarIOS>
       );
      }
   }
