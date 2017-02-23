@@ -1,5 +1,4 @@
-// 'https://bridgesapi-skypath.rhcloud.com/'
 module.exports = {
-    API_ROOT: 'http://localhost:8000/',
+    API_ROOT: 'https://bridgesapi-skypath.rhcloud.com/',
     bridges_teal: '#00857C'
 }
