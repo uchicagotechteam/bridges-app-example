@@ -109,6 +109,8 @@ export default class LoginScreen extends Component {
                  placeholderTextColor="#FFF"
                  style={styles.input}
                  onChangeText={(text) => this.setState({inputEmail: text, isError: false})}
+                 keyboardType="email-address"
+                 autoCapitalize="none"
                />
              </View>
              <View style={styles.inputWrap}>
@@ -120,6 +122,7 @@ export default class LoginScreen extends Component {
                  placeholder="Password"
                  style={styles.input}
                  onChangeText={(text) => this.setState({inputPassword: text, isError: false})}
+                 autoCapitalize="none"
                  secureTextEntry
                />
              </View>
