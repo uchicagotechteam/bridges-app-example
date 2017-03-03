@@ -8,7 +8,8 @@ import {
   Dimensions,
   TextInput,
   Button,
-  Image
+  Image,
+  KeyboardAvoidingView
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer';
 import StatusBarBackground from '../components/StatusBarBackground';
@@ -99,7 +100,7 @@ export default class LoginScreen extends Component {
            <View style={styles.infoWrap}>
              <Text style={styles.infoText}>{errorMsg}</Text>
            </View>
-           <View style={styles.wrapper}>
+           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
              <View style={styles.inputWrap}>
                <View style={styles.iconWrap}>
                  <Image source={personIcon} style={styles.icon} resizeMode="contain" />
@@ -110,7 +111,10 @@ export default class LoginScreen extends Component {
                  style={styles.input}
                  onChangeText={(text) => this.setState({inputEmail: text, isError: false})}
                  keyboardType="email-address"
+                 returnKeyType="next"
                  autoCapitalize="none"
+                 autoCorrect={false}
+                 onSubmitEditing={() => this.inputPassword.focus()}
                />
              </View>
              <View style={styles.inputWrap}>
@@ -121,8 +125,10 @@ export default class LoginScreen extends Component {
                  placeholderTextColor="#FFF"
                  placeholder="Password"
                  style={styles.input}
+                 ref={(input) => this.inputPassword=input}
                  onChangeText={(text) => this.setState({inputPassword: text, isError: false})}
                  autoCapitalize="none"
+                 returnKeyType="go"
                  secureTextEntry
                />
              </View>
@@ -136,7 +142,7 @@ export default class LoginScreen extends Component {
                  <Text style={styles.buttonText}>Sign In</Text>
                </View>
              </TouchableOpacity>
-           </View>
+           </KeyboardAvoidingView>
            <View style={styles.container}>
              <View style={styles.signupWrap}>
                <Text style={styles.accountText}>Don't have an account?</Text>
@@ -194,7 +200,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     height: 40,
     borderBottomWidth: 1,
-    borderBottomColor: "#CCC"
+    borderBottomColor: "#CCC",
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   iconWrap: {
     paddingHorizontal: 7,
