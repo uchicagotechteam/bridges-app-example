@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer';
 import StatusBarBackground from '../components/StatusBarBackground';
+import Main from './Main'
 
 import SInfo from 'react-native-sensitive-info';
 
@@ -46,9 +47,9 @@ export default class LoginScreen extends Component {
       };
   }
 
-  _navigateToPersonIndex() {
+  _navigateToMain() {
     this.props.navigator.push({
-      ident: "PeopleIndex"
+      ident: "Main"
     });
   }
 
@@ -71,7 +72,7 @@ export default class LoginScreen extends Component {
                   'isError': false
               });
 
-              this._navigateToPersonIndex();
+              this._navigateToMain();
 
           } else {
               this.setState({

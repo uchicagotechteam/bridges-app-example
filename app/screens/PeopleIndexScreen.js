@@ -13,14 +13,16 @@ import {
   Image,
   TouchableOpacity,
   Button,
-  Alert
+  Alert,
+  SegmentedControlIOS
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
-const response = [];
+var bridges_api_client = require('../bridges_client');
+var SearchBar = require('react-native-search-bar');
 
-var bridges_client = require('../bridges_client');
+const response = []
 
 export default class PeopleIndexScreen extends Component {
 constructor(props) {
@@ -32,9 +34,9 @@ constructor(props) {
     }
   }
 
-  componentWillMount() {
-        bridges_client.getQuestions(function(response) {
-            this.setState({
+  componentDidMount() {
+        bridges_api_client.getQuestions(function(response) {
+          this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
             });
@@ -45,10 +47,13 @@ constructor(props) {
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Bridges from School to Work</Text>
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Question Feed</Text>
+        <SearchBar
+        placeholder='Search'
+        />
         <ListView
           dataSource = {this.state.peopleDataSource}
-          renderRow={(question) => {return this._renderPersonRow(question)}}
+          renderRow={(question) => {return this._renderPersonRow(question)}} 
           automaticallyAdjustContentInsets={false}
           style = {{marginBottom: 50}}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
@@ -72,7 +77,7 @@ constructor(props) {
   _navigateToPersonShow(question) {
     this.props.navigator.push({
       ident: "PersonShow",
-      question: question
+      question: question 
     })
   }
 }
