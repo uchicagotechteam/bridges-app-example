@@ -9,7 +9,8 @@ import {
   TextInput,
   Button,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer';
 import StatusBarBackground from '../components/StatusBarBackground';
@@ -19,6 +20,8 @@ import SInfo from 'react-native-sensitive-info';
 
 var bridges_client = require('../bridges_client');
 var settings = require('../../settings');
+
+var dismissKeyboard = require('react-native-dismiss-keyboard');
 
 var bridges_teal = settings.bridges_teal;
 
@@ -93,7 +96,7 @@ export default class LoginScreen extends Component {
       }
 
       return (
-       <View style={styles.container}>
+       <TouchableWithoutFeedback style={styles.container} onPress={ () => { dismissKeyboard() } }>
          <Image source={backgroundImage} style={styles.background} resizeMode="cover">
            <View style={styles.markWrap}>
              <Image source={checkmark} style={styles.checkmark} resizeMode="contain" />
@@ -150,7 +153,7 @@ export default class LoginScreen extends Component {
              </TouchableOpacity>
            </KeyboardAvoidingView>
          </Image>
-       </View>
+       </TouchableWithoutFeedback>
      );
   }
 }
