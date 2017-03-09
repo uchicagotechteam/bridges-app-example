@@ -21,15 +21,11 @@ import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 import LoginScreen from './app/screens/LoginScreen'
+import Main from './app/screens/Main'
 
 export default class BridgesAppExample extends Component {
   constructor() {
     super();
-    this.state = {selectedTab: 'tabOne'}
-  }
-
-  setTab(tabId) {
-    this.setState({selectedTab: tabId})
   }
 
   _renderScene(route, navigator) {
@@ -60,6 +56,11 @@ export default class BridgesAppExample extends Component {
             <LoginScreen
                 {...globalNavigatorProps} />
         )
+      case "Main":
+        return (
+            <Main
+                {...globalNavigatorProps} />
+        )
       default:
         return (
         <LoginScreen
@@ -69,50 +70,13 @@ export default class BridgesAppExample extends Component {
   }
 
   render() {
-      let hiddenTabBarHeight = 0;
-      let hideTabBar = null;
-      let hideTabBarSceneStyle = null;
-
-      if (this.state.selectedTab === 'tabOne') {
-          hideTabBar = { height: hiddenTabBarHeight, overflow: 'hidden' };
-          hideTabBarSceneStyle = { paddingBottom: hiddenTabBarHeight };
-      }
-
       return (
-          <TabBarIOS>
-              <TabBarIOS.Item
-                  systemIcon="contacts"
-                  selected={this.state.selectedTab == 'tabOne'}
-                  onPress={() => this.setTab('tabOne')}>
-                  <Navigator
-                      initialRoute={{ident: "Login"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-              </TabBarIOS.Item>
-
-             <TabBarIOS.Item
-                  systemIcon="search"
-                  selected={this.state.selectedTab == 'tabTwo'}
-                  onPress={() => this.setTab('tabTwo')}>
-                  <Navigator
-                      initialRoute={{ident: "PeopleIndex"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-              </TabBarIOS.Item>
-
-            <TabBarIOS.Item
-                  systemIcon="contacts"
-                  selected={this.state.selectedTab == 'tabThree'}
-                  onPress={() => this.setTab('tabThree')}
-                  apiClient = {this.APIClient}>
-                  <Navigator
-                      initialRoute={{ident: "Profile"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-              </TabBarIOS.Item>
-       </TabBarIOS>
+        <Navigator
+        initialRoute={{ident: "Login"}}
+        ref="appNavigator"
+        renderScene={this._renderScene} />
       );
-     }
+    }
   }
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);

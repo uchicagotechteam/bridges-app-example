@@ -23,7 +23,7 @@ const response = []
 var bridges_client = require('../bridges_client');
 
 export default class ProfileScreen extends Component {
-constructor(props) {
+/*constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
@@ -39,7 +39,7 @@ constructor(props) {
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
             });
         });
-    }
+    }*/
 
   render() {
     return (
