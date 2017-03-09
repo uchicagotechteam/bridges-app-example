@@ -86,7 +86,7 @@ export default class LoginScreen extends Component {
 
       if (this.state.isError) {
           errorMsg = 'Username and/or password is incorrect';
-          styles.infoWrap = {marginBottom: 100, backgroundColor: "rgba(0, 0, 0, 0.5)"}
+          styles.infoWrap = {marginBottom: 100, backgroundColor: "rgba(0, 0, 0, 0.7)"}
       } else {
           styles.infoWrap = {marginBottom: 100, backgroundColor: "transparent"}
       }
@@ -142,17 +142,12 @@ export default class LoginScreen extends Component {
                  <Text style={styles.buttonText}>Sign In</Text>
                </View>
              </TouchableOpacity>
-           </KeyboardAvoidingView>
-           <View style={styles.container}>
-             <View style={styles.signupWrap}>
-               <Text style={styles.accountText}>Don't have an account?</Text>
-               <TouchableOpacity activeOpacity={.5}>
-                 <View>
-                   <Text style={styles.signupLinkText}>Sign Up</Text>
+             <TouchableOpacity style={styles.bottomArea} onPress={this._submitCredentials.bind(this)} activeOpacity={.5}>
+                 <View style={styles.bottomButton}>
+                   <Text style={styles.buttonText}>Sign Up</Text>
                  </View>
-               </TouchableOpacity>
-             </View>
-           </View>
+             </TouchableOpacity>
+           </KeyboardAvoidingView>
          </Image>
        </View>
      );
@@ -223,6 +218,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
+  },
+  bottomButton: {
+      backgroundColor: bridges_teal,
+      paddingVertical: 20,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 9,
+      marginBottom: 20,
+  },
+  bottomArea: {
+      paddingVertical: 0,
   },
   buttonText: {
     color: "#FFF",
