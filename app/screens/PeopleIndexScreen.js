@@ -20,8 +20,7 @@ import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
 var bridges_api_client = require('../bridges_client');
-
-console.log('jabroni', bridges_api_client);
+var SearchBar = require('react-native-search-bar');
 
 const response = []
 
@@ -48,14 +47,9 @@ constructor(props) {
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Bridges from School to Work</Text>
-        <SegmentedControlIOS
-          style={{backgroundColor: 'white', tintColor: '#00857c'}}
-          values={['Feed', 'Bookmarks']}
-          selectedIndex={this.state.selectedIndex}
-          onChange={(event) => {
-            this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-          }}
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Question Feed</Text>
+        <SearchBar
+        placeholder='Search'
         />
         <ListView
           dataSource = {this.state.peopleDataSource}

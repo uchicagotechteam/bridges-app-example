@@ -24,7 +24,9 @@ export default class PersonShowScreen extends Component {
   render() {
     return (
      <View>
-        <Text style={{marginTop: 30, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>{this.props.question.title}</Text>
+        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Answer</Text>
+        <Text style={{marginTop: 20, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>{this.props.question.title}</Text>
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
