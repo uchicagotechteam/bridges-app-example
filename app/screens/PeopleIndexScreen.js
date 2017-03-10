@@ -19,7 +19,7 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
-var bridges_api_client = require('../bridges_client');
+var bridges_client = require('../bridges_client');
 var SearchBar = require('react-native-search-bar');
 
 const response = []
@@ -35,7 +35,7 @@ constructor(props) {
   }
 
   componentDidMount() {
-        bridges_api_client.getQuestions(function(response) {
+        bridges_client.getQuestions(function(response) {
           this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)

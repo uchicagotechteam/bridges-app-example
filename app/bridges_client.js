@@ -1,34 +1,35 @@
 var settings = require('../settings.js');
-const base64 = require('base-64');
 
 import SInfo from 'react-native-sensitive-info';
 
 function generateHeaders(callback) {
-    return SInfo.getItem('email', {
+    return SInfo.getItem('token', {
         sharedPreferencesName: 'shared_preferences'
-    }).then((email) => {
-        SInfo.getItem('password', {
-            sharedPreferencesName: 'shared_preferences'
-        }).then((password) => {
-            if (email && password) {
-                var headers = new Headers();
-                headers.append('Authorization', 'Basic ' + base64.encode(email + ':' + password));
-                callback(headers);
-            } else {
-                return null;
-            }
-        });
+    }).then((token) => {
+        if (token) {
+            var headers = new Headers();
+            headers.append('Authorization', 'Token ' + token);
+            callback(headers);
+        } else {
+            return null;
+        }
     });
 }
 
 function login(username, password) {
-    var headers = new Headers();
-    headers.append('Authorization', 'Basic ' + base64.encode(username + ':' + password));
+    var credentials = {
+        'username': username,
+        'password': password
+    };
 
     // Try to log in with the current credentials
-    return fetch(settings.API_ROOT + 'questions/', {
-        method: 'get',
-        headers: headers
+    return fetch(settings.API_ROOT + 'api-token-auth/', {
+        'method': 'POST',
+        'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify(credentials)
     })
     .then((response) => {
         return response;
@@ -38,13 +39,15 @@ function login(username, password) {
     });
 }
 
-function getQuestions(callback) {
-    // Returns a list of ten questions
+function _getData(endpoint, callback, method) {
+    // calling getData without a method, defaults to get
     generateHeaders((headers) => {
-        fetch(settings.API_ROOT + 'questions/', {
+        fetch(settings.API_ROOT + endpoint, {
             'headers': headers
         })
-        .then((response) => response.json())
+        .then((response) => {
+            return response.json();
+        })
         .then((responseJson) => {
             callback(responseJson.results);
         })
@@ -52,6 +55,16 @@ function getQuestions(callback) {
             console.error(error);
         });
     });
+}
+
+function getQuestions(callback) {
+    // Returns a list of questions
+    _getData('questions/', callback);
+}
+
+function search(searchTerm, callback) {
+    // Returns a list of questions matching the query
+    _getData('questions/?search=' + searchTerm, callback)
 }
 
 module.exports = {

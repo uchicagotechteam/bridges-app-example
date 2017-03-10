@@ -23,8 +23,6 @@ var settings = require('../../settings');
 
 var dismissKeyboard = require('react-native-dismiss-keyboard');
 
-var bridges_teal = settings.bridges_teal;
-
 // Assets and images
 const { width, height } = Dimensions.get("window");
 const checkmark = require("./images/bridges_logo.png");
@@ -56,27 +54,29 @@ export default class LoginScreen extends Component {
     });
   }
 
+  _saveCredentials(response) {
+      response.json().then((responseJson) => {
+          SInfo.setItem('token', responseJson.token.trim(), {
+              sharedPreferencesName: 'shared_preferences'
+          });
+
+          this.setState({
+              'isError': false
+          });
+
+          this._navigateToMain();
+      });
+  }
+
   _submitCredentials() {
       var email = this.state.inputEmail.trim().toLowerCase();
       var password = this.state.inputPassword;
 
       bridges_client.login(email, password)
       .then(response => {
-          if (response.status === 200) {
+          if (response.ok) {
               // Server sends 200 if user is properly logged in
-              SInfo.setItem('email', email, {
-                  sharedPreferencesName: 'shared_preferences'
-              });
-              SInfo.setItem('password', password, {
-                  sharedPreferencesName: 'shared_preferences'
-              });
-
-              this.setState({
-                  'isError': false
-              });
-
-              this._navigateToMain();
-
+              this._saveCredentials(response);
           } else {
               this.setState({
                  'isError': true
@@ -198,8 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 10,
     height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: "#CCC",
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   iconWrap: {
@@ -217,14 +215,14 @@ const styles = StyleSheet.create({
     color: "white"
   },
   button: {
-    backgroundColor: bridges_teal,
+    backgroundColor: settings.bridges_light_teal,
     paddingVertical: 20,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
   },
   bottomButton: {
-      backgroundColor: bridges_teal,
+      backgroundColor: settings.bridges_teal,
       paddingVertical: 20,
       alignItems: "center",
       justifyContent: "center",
