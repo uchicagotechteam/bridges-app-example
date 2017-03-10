@@ -11,7 +11,8 @@ import {
   View,
   ListView,
   TouchableOpacity,
-  Image
+  Image,
+  TextInput
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
@@ -20,14 +21,36 @@ import ModalDropdown from 'react-native-modal-dropdown';
 export default class SignUpScreen extends Component {
   constructor(props) {
       super(props)
+      this.state = {
+          firstName: '',
+          isError: false
+      };
   }
 
   render() {
     return (
-     <View>
-        <Text> First Name </Text>  
-        <Text> Last Name </Text>  
-        <Text> Email </Text>  
+     <View> 
+        <TextInput
+          style={{marginTop: 20}}
+          placeholder="First Name"
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
+        <TextInput
+          style={{marginTop: 20}}
+          placeholder="Last Name"
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
+        <TextInput
+          style={{marginTop: 20}}
+          placeholder="Email"
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        /> 
         <Text> Date of Birth </Text>  
         <Text> Gender </Text>  
         <ModalDropdown options={['Male', 'Female', 'Other']}/>
@@ -51,7 +74,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 15,
     borderRadius: 25,
-  }
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 10,
+    color: "white"
+  },
 });
 
 module.exports = SignUpScreen
