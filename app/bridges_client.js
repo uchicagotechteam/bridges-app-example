@@ -40,12 +40,15 @@ function login(username, password) {
 
 function getQuestions(callback) {
     // Returns a list of ten questions
+    console.log('trying to get the quesrtions');
     generateHeaders((headers) => {
+
         fetch(settings.API_ROOT + 'questions/', {
             'headers': headers
         })
         .then((response) => response.json())
         .then((responseJson) => {
+            console.log('we\'re in the response');
             callback(responseJson.results);
         })
         .catch((error) => {

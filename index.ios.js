@@ -22,6 +22,7 @@ import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 import LoginScreen from './app/screens/LoginScreen'
 import Main from './app/screens/Main'
+import SignUpScreen from './app/screens/SignUpScreen'
 
 export default class BridgesAppExample extends Component {
   constructor() {
@@ -59,6 +60,11 @@ export default class BridgesAppExample extends Component {
       case "Main":
         return (
             <Main
+                {...globalNavigatorProps} />
+        )
+      case "SignUp":
+        return (
+            <SignUpScreen
                 {...globalNavigatorProps} />
         )
       default:

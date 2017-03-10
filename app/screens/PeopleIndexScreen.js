@@ -49,7 +49,7 @@ constructor(props) {
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Question Feed</Text>
         <SearchBar
-        placeholder='Search'
+          placeholder='Search'
         />
         <ListView
           dataSource = {this.state.peopleDataSource}

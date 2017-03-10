@@ -10,7 +10,8 @@ import {
   Button,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer';
 import StatusBarBackground from '../components/StatusBarBackground';
@@ -53,6 +54,12 @@ export default class LoginScreen extends Component {
   _navigateToMain() {
     this.props.navigator.push({
       ident: "Main"
+    });
+  }
+
+  _navigateToSignUp() {
+    this.props.navigator.push({
+      ident: "SignUp"
     });
   }
 
@@ -133,6 +140,7 @@ export default class LoginScreen extends Component {
                  onChangeText={(text) => this.setState({inputPassword: text, isError: false})}
                  autoCapitalize="none"
                  returnKeyType="go"
+                 onSubmitEditing={this._submitCredentials.bind(this)}
                  secureTextEntry
                />
              </View>
@@ -146,7 +154,7 @@ export default class LoginScreen extends Component {
                  <Text style={styles.buttonText}>Sign In</Text>
                </View>
              </TouchableOpacity>
-             <TouchableOpacity style={styles.bottomArea} onPress={this._submitCredentials.bind(this)} activeOpacity={.5}>
+             <TouchableOpacity style={styles.bottomArea} onPress={(event) => this._navigateToSignUp()} activeOpacity={.5}>
                  <View style={styles.bottomButton}>
                    <Text style={styles.buttonText}>Sign Up</Text>
                  </View>
