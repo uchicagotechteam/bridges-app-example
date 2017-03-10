@@ -30,7 +30,8 @@ constructor(props) {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
       'response': [],
-      peopleDataSource: ds.cloneWithRows(response)
+      peopleDataSource: ds.cloneWithRows(response),
+      'searchTerm': null
     }
   }
 
@@ -39,6 +40,15 @@ constructor(props) {
           this.setState({
                 'response': response,
                 peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
+            });
+        }.bind(this));
+    }
+
+    _searchQuestions() {
+        bridges_client.search(this.state.searchTerm, function(searchResults) {
+            this.setState({
+                'response': searchResults,
+                peopleDataSource: this.state.peopleDataSource.cloneWithRows(searchResults)
             });
         }.bind(this));
     }

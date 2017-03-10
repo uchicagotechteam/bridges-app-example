@@ -69,5 +69,6 @@ function search(searchTerm, callback) {
 
 module.exports = {
     login: login,
-    getQuestions: getQuestions
+    getQuestions: getQuestions,
+    search: search
 };
