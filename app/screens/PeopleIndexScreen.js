@@ -60,10 +60,14 @@ constructor(props) {
         <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Question Feed</Text>
         <SearchBar
           placeholder='Search'
+          onChangeText={(text) => {
+              this.setState({searchTerm: text});
+              this._searchQuestions();
+          }}
         />
         <ListView
           dataSource = {this.state.peopleDataSource}
-          renderRow={(question) => {return this._renderPersonRow(question)}} 
+          renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
           style = {{marginBottom: 50}}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
