@@ -60,6 +60,7 @@ export default class LoginScreen extends Component {
     this.props.navigator.push({
       ident: "SignUp"
     });
+  }
 
   _saveCredentials(response) {
       response.json().then((responseJson) => {

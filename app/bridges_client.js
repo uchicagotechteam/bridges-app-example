@@ -39,26 +39,16 @@ function login(username, password) {
     });
 }
 
-<<<<<<< HEAD
-function getQuestions(callback) {
-    // Returns a list of ten questions
-    console.log('trying to get the quesrtions');
-    generateHeaders((headers) => {
-
-        fetch(settings.API_ROOT + 'questions/', {
-=======
 function _getData(endpoint, callback, method) {
     // calling getData without a method, defaults to get
     generateHeaders((headers) => {
         fetch(settings.API_ROOT + endpoint, {
->>>>>>> 38798ba5bf7402859cf980aba7744d72556e58fb
             'headers': headers
         })
         .then((response) => {
             return response.json();
         })
         .then((responseJson) => {
-            console.log('we\'re in the response');
             callback(responseJson.results);
         })
         .catch((error) => {
