@@ -64,7 +64,7 @@ constructor(props) {
   _renderPersonRow(question) {
     return (
       <TouchableOpacity style={styles.personRow} onPress={(event) => this._navigateToPersonShow(question) }>
-        <Text style={styles.questionTags}> Tags: {question.tags}</Text>
+        <Text style={styles.questionTags}> Tags: {question.tags.attribute}</Text>
         <Text style={styles.questionTitle}> {question.title}</Text>
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
