@@ -36,28 +36,32 @@ constructor(props) {
   }
 
   componentDidMount() {
-        bridges_client.getQuestions(function(response) {
+      this._getQuestions();
+  }
+
+  _getQuestions() {
+      bridges_client.getQuestions(function(response) {
           this.setState({
-                'response': response,
-                peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
-            });
-        }.bind(this));
-    }
+              'response': response,
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
+          });
+      }.bind(this));
+  }
 
-    _searchQuestions() {
-        bridges_client.search(this.state.searchTerm, function(searchResults) {
-            this.setState({
-                'response': searchResults,
-                peopleDataSource: this.state.peopleDataSource.cloneWithRows(searchResults)
-            });
-        }.bind(this));
-    }
+  _searchQuestions() {
+      bridges_client.search(this.state.searchTerm, function(searchResults) {
+          this.setState({
+              'response': searchResults,
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(searchResults)
+          });
+      }.bind(this));
+  }
 
-    _showTags(tags) {
-        return tags.map(function(tag) {
-            return tag.value
-        }).join(", ")
-    }
+  _showTags(tags) {
+      return tags.map(function(tag) {
+          return tag.value
+      }).join(", ")
+  }
 
   render() {
     return (
@@ -68,7 +72,11 @@ constructor(props) {
           placeholder='Search'
           onChangeText={(text) => {
               this.setState({searchTerm: text});
-              this._searchQuestions();
+              if (text.length > 2) {
+                  this._searchQuestions();
+              } else {
+                  this._getQuestions();
+              }
           }}
         />
         <ListView
