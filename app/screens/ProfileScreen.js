@@ -23,23 +23,22 @@ const response = []
 var bridges_client = require('../bridges_client');
 
 export default class ProfileScreen extends Component {
-/*constructor(props) {
+
+constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
-      'response': [],
-      peopleDataSource: ds.cloneWithRows(response)
+      'profile': {},
     }
   }
 
   componentDidMount() {
-    bridges_client.getQuestions().then(response => {
-            this.setState({
-                'response': response,
-                peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
-            });
-        });
-    }*/
+      bridges_client.getUserInfo(function(response) {
+          this.setState({
+              profile: response
+          });
+      }.bind(this));
+  }
 
   render() {
     return (
@@ -48,13 +47,14 @@ export default class ProfileScreen extends Component {
         <View style={{backgroundColor:"white"}}>
           <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Profile Page</Text>
           <Image source={require('./face.jpg')} style={styles.photo} />
-          <Text style={{fontSize: 30, marginTop: 15, textAlign: 'center', fontWeight: 'bold'}}> Rachel Mills </Text>
-          <Text style={{fontSize: 20, textAlign: 'center'}}> Chicago, Illinois </Text>
+          <Text style={{fontSize: 30, marginTop: 15, textAlign: 'center', fontWeight: 'bold'}}>
+              {this.state.profile.first_name} {this.state.profile.last_name} </Text>
+          <Text style={{fontSize: 20, textAlign: 'center'}}> {this.state.profile.email} </Text>
           <View style={{height: 20}}/>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image source={require('./store.png')} style={styles.icon} />
-          <Text style = {styles.info}> Walgreens </Text>
+          <Text style = {styles.info}> {this.state.profile.current_employer} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image source={require('./tie.png')} style={styles.icon} />

@@ -49,7 +49,7 @@ function _getData(endpoint, callback, method) {
             return response.json();
         })
         .then((responseJson) => {
-            callback(responseJson.results);
+            callback(responseJson);
         })
         .catch((error) => {
             console.error(error);
@@ -64,11 +64,17 @@ function getQuestions(callback) {
 
 function search(searchTerm, callback) {
     // Returns a list of questions matching the query
-    _getData('questions/?search=' + searchTerm, callback)
+    _getData('questions/?search=' + searchTerm, callback);
 }
+
+function getUserInfo(callback) {
+    _getData('user-info/', callback);
+}
+
 
 module.exports = {
     login: login,
     getQuestions: getQuestions,
+    getUserInfo: getUserInfo,
     search: search
 };

@@ -78,7 +78,7 @@ export default class LoginScreen extends Component {
   }
 
   _submitCredentials() {
-      var email = this.state.inputEmail.trim().toLowerCase();
+      var email = this.state.inputEmail.trim();
       var password = this.state.inputPassword;
 
       bridges_client.login(email, password)

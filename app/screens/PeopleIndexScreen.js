@@ -42,8 +42,8 @@ constructor(props) {
   _getQuestions() {
       bridges_client.getQuestions(function(response) {
           this.setState({
-              'response': response,
-              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response)
+              'response': response.results,
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response.results)
           });
       }.bind(this));
   }
@@ -51,8 +51,8 @@ constructor(props) {
   _searchQuestions() {
       bridges_client.search(this.state.searchTerm, function(searchResults) {
           this.setState({
-              'response': searchResults,
-              peopleDataSource: this.state.peopleDataSource.cloneWithRows(searchResults)
+              'response': searchResults.results,
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(searchResults.results)
           });
       }.bind(this));
   }
@@ -67,7 +67,8 @@ constructor(props) {
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Question Feed</Text>
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
+            fontSize: 22, color: "white", fontWeight: "bold"}}> Question Feed </Text>
         <SearchBar
           placeholder='Search'
           onChangeText={(text) => {
@@ -105,11 +106,10 @@ constructor(props) {
   _navigateToPersonShow(question) {
     this.props.navigator.push({
       ident: "PersonShow",
-      question: question 
-    })
-  }
+      question: question,
+  })
 }
-
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
