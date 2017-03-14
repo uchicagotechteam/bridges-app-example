@@ -18,9 +18,12 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
+import SInfo from 'react-native-sensitive-info';
+
 const response = []
 
 var bridges_client = require('../bridges_client');
+var settings = require('../../settings');
 
 export default class ProfileScreen extends Component {
 
@@ -30,6 +33,20 @@ constructor(props) {
     this.state = {
       'profile': {},
     }
+  }
+
+  _navigateToLogin() {
+    this.props.navigator.push({
+      ident: "Login"
+    });
+  }
+
+  _logout() {
+      console.log('made it to logout!');
+      SInfo.deleteItem('token', {
+          sharedPreferencesName: 'shared_preferences'
+      });
+      this._navigateToLogin();
   }
 
   componentDidMount() {
@@ -68,6 +85,11 @@ constructor(props) {
           <Image source={require('./language.png')} style={styles.icon} />
           <Text style = {styles.info}> English, Spanish </Text>
         </View>
+        <TouchableOpacity style={styles.bottomArea} onPress={this._logout.bind(this)} activeOpacity={.5}>
+            <View style={styles.bottomButton}>
+              <Text style={styles.buttonText}>Logout</Text>
+            </View>
+        </TouchableOpacity>
       </ViewContainer>
     );
   }
@@ -110,8 +132,22 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 10,
     fontSize: 20
+  },
+  bottomButton: {
+      backgroundColor: settings.bridges_teal,
+      paddingVertical: 20,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 9,
+      marginBottom: 20,
+  },
+  bottomArea: {
+      paddingVertical: 0,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 18,
   }
-
 });
 
 module.exports = ProfileScreen

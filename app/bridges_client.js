@@ -88,7 +88,6 @@ function getUserInfo(callback) {
     _getData('user-info/', callback);
 }
 
-
 module.exports = {
     login: login,
     getQuestions: getQuestions,
