@@ -51,6 +51,7 @@ export default class SignUpScreen extends Component {
           currentEmployer: '',
           dateOfBirth: '',
           password: '',
+          currentPosition: '',
           isError: false
       };
   }
@@ -66,7 +67,8 @@ export default class SignUpScreen extends Component {
           ethnicity: this.state.ethnicity,
           currentEmployer: this.state.currentEmployer,
           dateOfBirth: this.state.dateOfBirth,
-          password: this.state.password
+          password: this.state.password,
+          postition: this.state.currentPosition
       }
 
       bridges_client.createNewUser(userData, function(response) {
@@ -113,30 +115,6 @@ export default class SignUpScreen extends Component {
         <TouchableWithoutFeedback style={styles.container} onPress={ () => { dismissKeyboard() } }>
             <ScrollView>
             <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
-            <Text> First Name </Text>
-             <View style={styles.inputWrap}>
-                 <TextInput
-                   placeholder="Rachel"
-                   placeholderTextColor="#C0C0C0"
-                   style={styles.input}
-                   onChangeText={(text) => this.setState({firstName: text})}
-                   returnKeyType="next"
-                   autoCapitalize="none"
-                   autoCorrect={false}
-                 />
-             </View>
-             <Text> Last Name </Text>
-             <View style={styles.inputWrap}>
-                 <TextInput
-                   placeholder="Mills"
-                   placeholderTextColor="#C0C0C0"
-                   style={styles.input}
-                   onChangeText={(text) => this.setState({lastName: text})}
-                   returnKeyType="next"
-                   autoCapitalize="none"
-                   autoCorrect={false}
-                 />
-             </View>
              <Text> Email Address </Text>
              <View style={styles.inputWrap}>
                  <TextInput
@@ -161,7 +139,33 @@ export default class SignUpScreen extends Component {
                     secureTextEntry
                   />
               </View>
-              
+
+             <Text> First Name </Text>
+              <View style={styles.inputWrap}>
+                  <TextInput
+                    placeholder="Rachel"
+                    placeholderTextColor="#C0C0C0"
+                    style={styles.input}
+                    onChangeText={(text) => this.setState({firstName: text})}
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+              </View>
+
+              <Text> Last Name </Text>
+              <View style={styles.inputWrap}>
+                  <TextInput
+                    placeholder="Mills"
+                    placeholderTextColor="#C0C0C0"
+                    style={styles.input}
+                    onChangeText={(text) => this.setState({lastName: text})}
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+              </View>
+
             <Text> Date of Birth </Text>
             <View style={styles.inputWrap}>
                 <DatePicker
@@ -191,19 +195,24 @@ export default class SignUpScreen extends Component {
             <ModalDropdown
                 options={genderOptions}
                 onSelect={(idx) => this.setState({'gender': genderOptions[idx]})}
+                textStyle={styles.bigSelect}
                 />
             </View>
 
             <Text>Disabilities </Text>
-            <View style={styles.inputWrap}>
+            <View style={[styles.inputWrap, styles.responsiveModal]}>
             <ModalDropdown options={disabilityOptions}
-                onSelect={(idx) => this.setState({'disability': disabilityOptions[idx]})}/>
+                onSelect={(idx) => this.setState({'disability': disabilityOptions[idx]})}
+                textStyle={styles.bigSelect}
+                />
             </View>
 
             <Text> Ethnicity </Text>
             <View style={styles.inputWrap}>
             <ModalDropdown options={ethnicityOptions}
-                onSelect={(idx) => this.setState({'ethnicity': ethnicityOptions[idx]})}/>
+                onSelect={(idx) => this.setState({'ethnicity': ethnicityOptions[idx]})}
+                textStyle={styles.bigSelect}
+                />
             </View>
 
             <Text> Current Employer </Text>
@@ -213,6 +222,19 @@ export default class SignUpScreen extends Component {
                   placeholderTextColor="#C0C0C0"
                   style={styles.input}
                   onChangeText={(text) => this.setState({currentEmployer: text})}
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+            </View>
+
+            <Text> Current position </Text>
+            <View style={styles.inputWrap}>
+                <TextInput
+                  placeholder="Assistant Manager"
+                  placeholderTextColor="#C0C0C0"
+                  style={styles.input}
+                  onChangeText={(text) => this.setState({currentPosition: text})}
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -275,6 +297,11 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         height: 40,
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+
+    bigSelect: {
+        fontSize: 17,
+        color: "#C0C0C0"
     },
 });
 

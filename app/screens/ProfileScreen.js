@@ -58,7 +58,7 @@ constructor(props) {
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image source={require('./tie.png')} style={styles.icon} />
-          <Text style = {styles.info}> Assistant Manager </Text>
+          <Text style = {styles.info}> {this.state.profile.position} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image source={require('./time.png')} style={styles.icon} />
