@@ -55,7 +55,6 @@ export default class LoginScreen extends Component {
     });
   }
 
-
   _navigateToSignUp() {
     this.props.navigator.push({
       ident: "SignUp"
@@ -78,7 +77,7 @@ export default class LoginScreen extends Component {
   }
 
   _submitCredentials() {
-      var email = this.state.inputEmail.trim();
+      var email = this.state.inputEmail.trim().toLowerCase();
       var password = this.state.inputPassword;
 
       bridges_client.login(email, password)

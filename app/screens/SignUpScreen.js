@@ -11,75 +11,271 @@ import {
   View,
   ListView,
   TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
   Image,
   TextInput
 } from 'react-native';
-import ViewContainer from '../components/ViewContainer'
-import StatusBarBackground from '../components/StatusBarBackground'
+import ViewContainer from '../components/ViewContainer';
+import StatusBarBackground from '../components/StatusBarBackground';
 import ModalDropdown from 'react-native-modal-dropdown';
+import DatePicker from 'react-native-datepicker';
+
+var dismissKeyboard = require('react-native-dismiss-keyboard');
+var settings = require('../../settings');
+var bridges_client = require('../bridges_client');
+
+const genderOptions = ['male', 'female', 'other']
+
+const disabilityOptions = ['Learning Disability', 'Blind',
+    'Deaf/Hard of Hearing', 'Emotional/Behavioral Disorder',
+    'Intellectual Disability', 'Chronic Health Impairment',
+    'Autism Spectrum Disorder', 'Speech/Language Impairment',
+    'Other Health Impairment', 'ADD/ADHD', 'Orthopedic Impairment']
+
+const ethnicityOptions = ['American Indian or Alaska Native', 'Asian',
+ 'Black or African American',
+ 'Native Hawaiian or Pacific Islander', 'White']
 
 export default class SignUpScreen extends Component {
   constructor(props) {
       super(props)
       this.state = {
           firstName: '',
+          lastName: '',
+          email: '',
+          gender: '',
+          disability: '',
+          ethnicity: '',
+          currentEmployer: '',
+          dateOfBirth: '',
+          password: '',
           isError: false
       };
   }
 
+  _createUser() {
+      var userData = {
+          username: this.state.email,
+          first_name: this.state.firstName,
+          last_name: this.state.lastName,
+          email: this.state.email,
+          gender: this.state.gender,
+          disabilities: this.state.disability,
+          ethnicity: this.state.ethnicity,
+          currentEmployer: this.state.currentEmployer,
+          dateOfBirth: this.state.dateOfBirth,
+          password: this.state.password
+      }
+
+      bridges_client.createNewUser(userData, function(response) {
+          if (response.ok) {
+              _saveCredentials(response);
+          } else {
+              response.json().then((responseJson) => {
+                  var errors = responseJson.errors;
+                  var error_msg = '';
+
+                  for (const key of Object.keys(errors)) {
+                      error_msg += (key + ' - ' + errors[key] + '\n').replace('username', 'email');
+                  }
+
+                  alert(error_msg);
+              });
+          }
+      });
+  }
+
+  _navigateToMain() {
+    this.props.navigator.push({
+      ident: "Main"
+    });
+  }
+
+  _saveCredentials(response) {
+      response.json().then((responseJson) => {
+          SInfo.setItem('token', responseJson.token.trim(), {
+              sharedPreferencesName: 'shared_preferences'
+          });
+
+          this.setState({
+              'isError': false
+          });
+
+          this._navigateToMain();
+      });
+
+  }
+
   render() {
     return (
-     <View> 
-        <TextInput
-          style={{marginTop: 20}}
-          placeholder="First Name"
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        <TextInput
-          style={{marginTop: 20}}
-          placeholder="Last Name"
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        <TextInput
-          style={{marginTop: 20}}
-          placeholder="Email"
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        /> 
-        <Text> Date of Birth </Text>  
-        <Text> Gender </Text>  
-        <ModalDropdown options={['Male', 'Female', 'Other']}/>
-        <Text> Disabilities </Text> 
-        <ModalDropdown options={['Learning Disability', 'Blind', 'Deaf/Hard of Hearing', 'Emotional/Behavioral Disorder', 'Intellectual Disability', 'Chronic Health Impairment', 'Autism Spectrum Disorder', 'Speech/Language Impairment', 'Other Health Impairment', 'ADD/ADHD', 'Orthopedic Impairment']}/> 
-        <Text> Race </Text> 
-        <ModalDropdown options={['American Indian or Alaska Native', 'Asian', 'Black or African American', 'Native Hawaiian or Pacific Islander', 'White']}/>
-        <Text> Current Employer </Text>   
-     </View>
+        <TouchableWithoutFeedback style={styles.container} onPress={ () => { dismissKeyboard() } }>
+            <ScrollView>
+            <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
+            <Text> First Name </Text>
+             <View style={styles.inputWrap}>
+                 <TextInput
+                   placeholder="Rachel"
+                   placeholderTextColor="#C0C0C0"
+                   style={styles.input}
+                   onChangeText={(text) => this.setState({firstName: text})}
+                   returnKeyType="next"
+                   autoCapitalize="none"
+                   autoCorrect={false}
+                 />
+             </View>
+             <Text> Last Name </Text>
+             <View style={styles.inputWrap}>
+                 <TextInput
+                   placeholder="Mills"
+                   placeholderTextColor="#C0C0C0"
+                   style={styles.input}
+                   onChangeText={(text) => this.setState({lastName: text})}
+                   returnKeyType="next"
+                   autoCapitalize="none"
+                   autoCorrect={false}
+                 />
+             </View>
+             <Text> Email Address </Text>
+             <View style={styles.inputWrap}>
+                 <TextInput
+                   placeholder="rmillz@bridges.org"
+                   placeholderTextColor="#C0C0C0"
+                   style={styles.input}
+                   onChangeText={(text) => this.setState({email: text})}
+                   returnKeyType="next"
+                   autoCapitalize="none"
+                   autoCorrect={false}
+                 />
+             </View>
+
+             <Text> Password </Text>
+              <View style={styles.inputWrap}>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => this.setState({password: text})}
+                    returnKeyType="next"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry
+                  />
+              </View>
+              
+            <Text> Date of Birth </Text>
+            <View style={styles.inputWrap}>
+                <DatePicker
+                style={{width: 200}}
+                date={this.state.dateOfBirth}
+                mode="date"
+                placeholder="select date"
+                format="YYYY-MM-DD"
+                maxDate="2016-01-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0
+                  },
+                  dateInput: {
+                    marginLeft: 36
+                  }
+                }}
+                onDateChange={(date) => {this.setState({dateOfBirth: date})}} />
+            </View>
+            <Text> Gender </Text>
+            <View style={styles.inputWrap}>
+            <ModalDropdown
+                options={genderOptions}
+                onSelect={(idx) => this.setState({'gender': genderOptions[idx]})}
+                />
+            </View>
+
+            <Text>Disabilities </Text>
+            <View style={styles.inputWrap}>
+            <ModalDropdown options={disabilityOptions}
+                onSelect={(idx) => this.setState({'disability': disabilityOptions[idx]})}/>
+            </View>
+
+            <Text> Ethnicity </Text>
+            <View style={styles.inputWrap}>
+            <ModalDropdown options={ethnicityOptions}
+                onSelect={(idx) => this.setState({'ethnicity': ethnicityOptions[idx]})}/>
+            </View>
+
+            <Text> Current Employer </Text>
+            <View style={styles.inputWrap}>
+                <TextInput
+                  placeholder="Walgreens"
+                  placeholderTextColor="#C0C0C0"
+                  style={styles.input}
+                  onChangeText={(text) => this.setState({currentEmployer: text})}
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+            </View>
+            <TouchableOpacity onPress={() => this._createUser()} activeOpacity={.5}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </View>
+            </TouchableOpacity>
+         </KeyboardAvoidingView>
+        </ScrollView>
+     </TouchableWithoutFeedback>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  personName: {
-    fontWeight: "bold"
-  },
-  photo: {
-    height: 50,
-    width: 50,
-    marginTop: 15,
-    marginLeft: 15,
-    borderRadius: 25,
-  },
-  input: {
-    flex: 1,
-    paddingHorizontal: 10,
-    color: "white"
-  },
+    container: {
+        flex: 1,
+    },
+
+    wrapper: {
+      paddingVertical: 30,
+    },
+
+    personName: {
+        fontWeight: "bold"
+    },
+
+    photo: {
+        height: 50,
+        width: 50,
+        marginTop: 15,
+        marginLeft: 15,
+        borderRadius: 25,
+    },
+
+    button: {
+      backgroundColor: settings.bridges_light_teal,
+      paddingVertical: 20,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 30,
+    },
+
+    buttonText: {
+      color: "#FFF",
+      fontSize: 18,
+    },
+
+    input: {
+        flex: 1,
+        paddingHorizontal: 10,
+        color: "white"
+    },
+
+    inputWrap: {
+        flexDirection: "row",
+        marginVertical: 10,
+        height: 40,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
 });
 
 module.exports = SignUpScreen

@@ -15,9 +15,10 @@ import {
   View
 } from 'react-native';
 
-import PersonShowScreen from './PersonShowScreen'
-import PeopleIndexScreen from './PeopleIndexScreen'
-import ProfileScreen from './ProfileScreen'
+import PersonShowScreen from './PersonShowScreen';
+import PeopleIndexScreen from './PeopleIndexScreen';
+import ProfileScreen from './ProfileScreen';
+import SignUpScreen from './SignUpScreen';
 
 export default class Main extends Component {
   constructor() {
@@ -57,6 +58,13 @@ export default class Main extends Component {
             <LoginScreen
                 {...globalNavigatorProps} />
         )
+
+      case "SignUp":
+        return (
+            <SignUpScreen
+                {...globalNavigatorProps} />
+        )
+
       default:
         return (
         <LoginScreen
@@ -81,8 +89,7 @@ export default class Main extends Component {
           <TabBarIOS.Item
                 systemIcon="contacts"
                 selected={this.state.selectedTab == 'tabTwo'}
-                onPress={() => this.setTab('tabTwo')}
-                apiClient = {this.APIClient}>
+                onPress={() => this.setTab('tabTwo')}>
                 <Navigator
                     initialRoute={{ident: "Profile"}}
                     ref="appNavigator"

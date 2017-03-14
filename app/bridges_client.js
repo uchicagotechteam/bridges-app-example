@@ -39,6 +39,23 @@ function login(username, password) {
     });
 }
 
+function createNewUser(userData, callback) {
+    return fetch(settings.API_ROOT + 'users/', {
+        'method': 'POST',
+        'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify(userData)
+    })
+    .then((response) => {
+        callback(response);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
+
 function _getData(endpoint, callback, method) {
     // calling getData without a method, defaults to get
     generateHeaders((headers) => {
@@ -76,5 +93,6 @@ module.exports = {
     login: login,
     getQuestions: getQuestions,
     getUserInfo: getUserInfo,
+    createNewUser: createNewUser,
     search: search
 };
