@@ -10,6 +10,7 @@ import {
   Text,
   View,
   ListView,
+  ScrollView,
   Image,
   TouchableOpacity,
   Button,
@@ -36,13 +37,13 @@ constructor(props) {
   }
 
   _navigateToLogin() {
+    // Should somehow get back here without tabBar displaying
     this.props.navigator.push({
       ident: "Login"
     });
   }
 
   _logout() {
-      console.log('made it to logout!');
       SInfo.deleteItem('token', {
           sharedPreferencesName: 'shared_preferences'
       });
@@ -59,6 +60,7 @@ constructor(props) {
 
   render() {
     return (
+     <ScrollView>
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <View style={{backgroundColor:"white"}}>
@@ -91,6 +93,7 @@ constructor(props) {
             </View>
         </TouchableOpacity>
       </ViewContainer>
+    </ScrollView>
     );
   }
 }

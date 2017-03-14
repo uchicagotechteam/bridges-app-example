@@ -15,7 +15,6 @@ import {
   View
 } from 'react-native';
 
-import LoginScreen from './LoginScreen';
 import PersonShowScreen from './PersonShowScreen';
 import PeopleIndexScreen from './PeopleIndexScreen';
 import ProfileScreen from './ProfileScreen';
