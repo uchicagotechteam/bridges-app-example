@@ -22,6 +22,8 @@ import StatusBarBackground from '../components/StatusBarBackground';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker';
 
+import SInfo from 'react-native-sensitive-info';
+
 var dismissKeyboard = require('react-native-dismiss-keyboard');
 var settings = require('../../settings');
 var bridges_client = require('../bridges_client');
@@ -65,28 +67,28 @@ export default class SignUpScreen extends Component {
           gender: this.state.gender,
           disabilities: this.state.disability,
           ethnicity: this.state.ethnicity,
-          currentEmployer: this.state.currentEmployer,
-          dateOfBirth: this.state.dateOfBirth,
+          current_employer: this.state.currentEmployer,
+          date_of_birth: this.state.dateOfBirth,
           password: this.state.password,
-          postition: this.state.currentPosition
+          position: this.state.currentPosition
       }
 
       bridges_client.createNewUser(userData, function(response) {
           if (response.ok) {
-              _saveCredentials(response);
+              this._saveCredentials(response);
           } else {
               response.json().then((responseJson) => {
                   var errors = responseJson.errors;
                   var error_msg = '';
 
                   for (const key of Object.keys(errors)) {
-                      error_msg += (key + ' - ' + errors[key] + '\n').replace('username', 'email');
+                      error_msg += key + ' - ' + errors[key] + '\n';
                   }
 
-                  alert(error_msg);
+                  alert(error_msg.replace(new RegExp('username', 'g'), 'email'));
               });
           }
-      });
+      }.bind(this));
   }
 
   _navigateToMain() {

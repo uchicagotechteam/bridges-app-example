@@ -36,18 +36,11 @@ constructor(props) {
     }
   }
 
-  _navigateToLogin() {
-    // Should somehow get back here without tabBar displaying
-    this.props.navigator.push({
-      ident: "Login"
-    });
-  }
-
   _logout() {
       SInfo.deleteItem('token', {
           sharedPreferencesName: 'shared_preferences'
       });
-      this._navigateToLogin();
+      // Should then navigate to login screen
   }
 
   componentDidMount() {
