@@ -15,6 +15,7 @@ import {
   View
 } from 'react-native';
 
+import BookmarksScreen from './BookmarksScreen';
 import PersonShowScreen from './PersonShowScreen';
 import PeopleIndexScreen from './PeopleIndexScreen';
 import ProfileScreen from './ProfileScreen';
@@ -34,6 +35,12 @@ export default class Main extends Component {
     var globalNavigatorProps = { navigator }
 
     switch(route.ident) {
+      case "Bookmarks":
+        return (
+            <BookmarksScreen
+                {...globalNavigatorProps} />
+        )
+
       case "PeopleIndex":
         return (
           <PeopleIndexScreen
@@ -95,6 +102,16 @@ export default class Main extends Component {
                     ref="appNavigator"
                     renderScene={this._renderScene} />
             </TabBarIOS.Item>
+
+            <TabBarIOS.Item
+                  systemIcon="bookmarks"
+                  selected={this.state.selectedTab == 'tabThree'}
+                  onPress={() => this.setTab('tabThree')}>
+                  <Navigator
+                      initialRoute={{ident: "Bookmarks"}}
+                      ref="appNavigator"
+                      renderScene={this._renderScene} />
+              </TabBarIOS.Item>
           </TabBarIOS>
           );
       }

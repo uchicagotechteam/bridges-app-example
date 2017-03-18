@@ -15,10 +15,15 @@ import {
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
+var bookmark_manager = require('../bookmark_manager');
 
 export default class PersonShowScreen extends Component {
   constructor(props) {
       super(props)
+  }
+
+  addQuestionToBookmarks() {
+      bookmark_manager.addBookmark(this.props.question);
   }
 
   render() {
@@ -30,6 +35,9 @@ export default class PersonShowScreen extends Component {
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
+          <TouchableOpacity onPress={() => this.addQuestionToBookmarks()}>
+              <Image source={require('./face.jpg')} style={styles.rightPhoto} />
+          </TouchableOpacity>
         </View>
         <Text style={{marginTop: 20, marginLeft: 15, fontSize: 20}}>{this.props.question.answer}</Text>
       </View>
@@ -47,6 +55,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 15,
     borderRadius: 25,
+  },
+  rightPhoto: {
+      height: 50,
+      width: 50,
+      marginRight: 30,
   }
 });
 

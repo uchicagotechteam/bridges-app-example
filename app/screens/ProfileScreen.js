@@ -25,6 +25,7 @@ const response = []
 
 var bridges_client = require('../bridges_client');
 var settings = require('../../settings');
+var bookmark_manager = require('../bookmark_manager');
 
 export default class ProfileScreen extends Component {
 
@@ -40,6 +41,7 @@ constructor(props) {
       SInfo.deleteItem('token', {
           sharedPreferencesName: 'shared_preferences'
       });
+      bookmark_manager.clearBoomarks();
       // Should then navigate to login screen
   }
 

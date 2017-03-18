@@ -85,6 +85,7 @@ function search(searchTerm, callback) {
 }
 
 function getUserInfo(callback) {
+    // Get the information for a single user
     _getData('user-info/', callback);
 }
 
