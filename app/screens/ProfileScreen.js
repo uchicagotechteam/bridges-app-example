@@ -41,7 +41,7 @@ constructor(props) {
       SInfo.deleteItem('token', {
           sharedPreferencesName: 'shared_preferences'
       });
-      bookmark_manager.clearBoomarks();
+      bookmark_manager.clearLocalBoomarks();
       // Should then navigate to login screen
   }
 

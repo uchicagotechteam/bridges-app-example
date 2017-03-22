@@ -23,7 +23,7 @@ export default class PersonShowScreen extends Component {
   }
 
   addQuestionToBookmarks() {
-      bookmark_manager.addBookmark(this.props.question);
+      bookmark_manager.addLocalBookmark(this.props.question);
   }
 
   render() {

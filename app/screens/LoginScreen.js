@@ -80,8 +80,7 @@ export default class LoginScreen extends Component {
       var email = this.state.inputEmail.trim().toLowerCase();
       var password = this.state.inputPassword;
 
-      bridges_client.login(email, password)
-      .then(response => {
+      bridges_client.login(email, password, function(response) {
           if (response.ok) {
               // Server sends 200 if user is properly logged in
               this._saveCredentials(response);
@@ -90,7 +89,7 @@ export default class LoginScreen extends Component {
                  'isError': true
               });
           }
-      });
+      }.bind(this));
   }
 
   render() {

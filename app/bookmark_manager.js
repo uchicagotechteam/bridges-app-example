@@ -63,8 +63,8 @@ function clearBoomarks() {
 }
 
 module.exports = {
-    retrieveBookmarks: retrieveBookmarks,
-    addBookmark: addBookmark,
-    removeBookmark: removeBookmark,
-    clearBoomarks: clearBoomarks
+    retrieveLocalBookmarks: retrieveBookmarks,
+    addLocalBookmark: addBookmark,
+    removeLocalBookmark: removeBookmark,
+    clearLocalBoomarks: clearBoomarks
 }

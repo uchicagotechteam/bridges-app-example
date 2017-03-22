@@ -16,37 +16,20 @@ function generateHeaders(callback) {
     });
 }
 
-function login(username, password) {
+function login(username, password, callback) {
     var credentials = {
         'username': username,
         'password': password
     };
 
     // Try to log in with the current credentials
-    return fetch(settings.API_ROOT + 'api-token-auth/', {
+    fetch(settings.API_ROOT + 'api-token-auth/', {
         'method': 'POST',
         'headers': {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         'body': JSON.stringify(credentials)
-    })
-    .then((response) => {
-        return response;
-    })
-    .catch((error) => {
-        console.error(error);
-    });
-}
-
-function createNewUser(userData, callback) {
-    return fetch(settings.API_ROOT + 'users/', {
-        'method': 'POST',
-        'headers': {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'body': JSON.stringify(userData)
     })
     .then((response) => {
         callback(response);
@@ -56,8 +39,34 @@ function createNewUser(userData, callback) {
     });
 }
 
+function _setData(endpoint, data, callback, method) {
+    // calling _setData without a method, defaults to POST
+    fetch(settings.API_ROOT + 'users/', {
+        'method': 'POST',
+        'headers': {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify(data)
+    })
+    .then((response) => {
+        callback(response);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
+
+function createNewUser(userData, callback) {
+    _setData('users/', userData, callback);
+}
+
+function setRemoteBookmarks(bookmarkIds) {
+    return _setData('bookmarks/', bookmarkIds, callback);
+}
+
 function _getData(endpoint, callback, method) {
-    // calling getData without a method, defaults to get
+    // calling _getData without a method, defaults to GET
     generateHeaders((headers) => {
         fetch(settings.API_ROOT + endpoint, {
             'headers': headers
@@ -88,6 +97,11 @@ function getUserInfo(callback) {
     // Get the information for a single user
     _getData('user-info/', callback);
 }
+
+function getRemoteBookmarks(callback) {
+    _getData('bookmarks/'. callback);
+}
+
 
 module.exports = {
     login: login,

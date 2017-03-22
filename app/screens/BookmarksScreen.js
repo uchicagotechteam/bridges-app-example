@@ -10,6 +10,7 @@ import {
   Text,
   View,
   ListView,
+  RefreshControl,
   Image,
   TouchableOpacity,
   Button,
@@ -29,17 +30,23 @@ constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
-      'response': [],
+      response: [],
       peopleDataSource: ds.cloneWithRows(response),
-      'searchTerm': null
+      refreshing: false,
     }
   }
 
+  _onRefresh() {
+      this.setState({refreshing: true});
+      this._getQuestions();
+  }
+
   _getQuestions() {
-      bookmark_manager.retrieveBookmarks(function(bookmarks) {
+      bookmark_manager.retrieveLocalBookmarks(function(bookmarks) {
           this.setState({
               'response': bookmarks,
-              peopleDataSource: this.state.peopleDataSource.cloneWithRows(bookmarks)
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(bookmarks),
+              refreshing: false,
           });
       }.bind(this));
   }
@@ -51,7 +58,24 @@ constructor(props) {
   }
 
   render() {
-    this._getQuestions();
+    if (!this.state.response || !this.state.response.length) {
+        return (
+            <ViewContainer>
+                <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+                <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
+                    fontSize: 22, color: "white", fontWeight: "bold"}}> Bookmarks </Text>
+                <Text>
+                    It seems like you have no bookmarks!
+                    You can bookmark questions by clicking on the bookmark icon
+                    in the upper right hand corner of the question screen
+                    (where you see the answers).
+
+                    Swipe down on this screen at any time
+                    to refresh your bookmarks!
+                </Text>
+            </ViewContainer>
+        )
+    }
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -62,6 +86,11 @@ constructor(props) {
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
           style = {{marginBottom: 50}}
+          refreshControl={
+              <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)} />
+          }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
       </ViewContainer>
     );
