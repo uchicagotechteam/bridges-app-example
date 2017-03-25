@@ -11,7 +11,7 @@ function generateHeaders(callback) {
             headers.append('Authorization', 'Token ' + token);
             callback(headers);
         } else {
-            return null;
+            callback(null);
         }
     });
 }
@@ -35,7 +35,7 @@ function login(username, password, callback) {
         callback(response);
     })
     .catch((error) => {
-        console.error(error);
+        alert(error);
     });
 }
 
@@ -53,7 +53,7 @@ function _setData(endpoint, data, callback, method) {
         callback(response);
     })
     .catch((error) => {
-        console.error(error);
+        alert(error);
     });
 }
 
@@ -78,7 +78,7 @@ function _getData(endpoint, callback, method) {
             callback(responseJson);
         })
         .catch((error) => {
-            console.error(error);
+            alert(error);
         });
     });
 }

@@ -45,7 +45,8 @@ export default class LoginScreen extends Component {
       this.state = {
           inputPassword: '',
           inputEmail: '',
-          isError: false
+          isError: false,
+          loading: true
       };
   }
 

@@ -24,9 +24,15 @@ import LoginScreen from './app/screens/LoginScreen'
 import Main from './app/screens/Main'
 import SignUpScreen from './app/screens/SignUpScreen'
 
+var bridges_client = require('./app/bridges_client');
+
 export default class BridgesAppExample extends Component {
   constructor() {
     super();
+    this.state = {
+        initialIdent: "Login",
+        loading: true
+    };
   }
 
   _renderScene(route, navigator) {
@@ -75,13 +81,33 @@ export default class BridgesAppExample extends Component {
     }
   }
 
+  componentWillMount() {
+      bridges_client.getUserInfo(function(response) {
+         console.log('lelelele', response);
+         if (response.email) {
+             this.setState({initialIdent: "Main"});
+         }
+         this.setState({loading: false});
+      }.bind(this));
+  }
+
+
   render() {
-      return (
-        <Navigator
-        initialRoute={{ident: "Login"}}
-        ref="appNavigator"
-        renderScene={this._renderScene} />
-      );
+      // If we have the proper token saved, lets just login
+      if (!this.state.loading) {
+          return (
+            <Navigator
+            initialRoute={{ident: this.state.initialIdent}}
+            ref="appNavigator"
+            renderScene={this._renderScene} />
+          );
+      } else {
+          return (
+           <View>
+               <Text>Just a moment :)</Text>
+           </View>
+        );
+      }
     }
   }
 
