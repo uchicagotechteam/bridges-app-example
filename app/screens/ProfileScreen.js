@@ -53,11 +53,13 @@ constructor(props) {
 
   render() {
     return (
+    <ViewContainer>
+    <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+    <Text style={{height:40, textAlign: "center",
+        backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>
+        Profile </Text>
      <ScrollView>
-     <ViewContainer>
-        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <View style={{backgroundColor:"white"}}>
-          <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Profile Page</Text>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize: 30, marginTop: 15, textAlign: 'center', fontWeight: 'bold'}}>
               {this.state.profile.first_name} {this.state.profile.last_name} </Text>
@@ -85,8 +87,8 @@ constructor(props) {
               <Text style={styles.buttonText}>Logout</Text>
             </View>
         </TouchableOpacity>
-      </ViewContainer>
     </ScrollView>
+    </ViewContainer>
     );
   }
 }
@@ -135,7 +137,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       marginTop: 9,
-      marginBottom: 20,
   },
   bottomArea: {
       paddingVertical: 0,

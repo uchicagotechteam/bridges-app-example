@@ -72,23 +72,20 @@ constructor(props) {
   }
 
   render() {
-    return (
-     <ViewContainer>
-        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
-            fontSize: 22, color: "white", fontWeight: "bold"}}> Question Feed </Text>
-        <SearchBar
-          placeholder='Search'
-          onChangeText={(text) => {
-              this.setState({searchTerm: text});
-              if (text.length > 2) {
-                  this._searchQuestions();
-              } else {
-                  this._getQuestions();
-              }
-          }}
-        />
-        <ListView
+    var question_display;
+    console.log('searchTerm', this.state.searchTerm, 'response', this.state.response);
+    if (this.state.searchTerm && this.state.response.length === 0) {
+        console.log('hello');
+        questionDisplay = (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                    There are no results matching "{this.state.searchTerm}"
+                </Text>
+            </View>
+        );
+    } else {
+        questionDisplay = (
+          <ListView
           dataSource = {this.state.peopleDataSource}
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
@@ -99,6 +96,26 @@ constructor(props) {
                   onRefresh={this._onRefresh.bind(this)} />
           }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+        );
+    }
+
+    return (
+     <ViewContainer>
+        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
+            fontSize: 22, color: "white", fontWeight: "bold"}}> Question Feed </Text>
+        <SearchBar
+          placeholder='Search'
+          onChangeText={(text) => {
+              this.setState({searchTerm: text});
+              if (text.length > 0) {
+                  this._searchQuestions();
+              } else {
+                  this._getQuestions();
+              }
+          }}
+        />
+        {questionDisplay}
       </ViewContainer>
     );
   }
