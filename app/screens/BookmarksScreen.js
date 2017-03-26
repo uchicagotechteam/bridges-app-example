@@ -57,25 +57,33 @@ constructor(props) {
       }).join(", ")
   }
 
+  componentDidMount() {
+      this._getQuestions();
+  }
+
   render() {
+    var noBookmarksMsg;
     if (!this.state.response || !this.state.response.length) {
-        return (
-            <ViewContainer>
-                <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-                <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
-                    fontSize: 22, color: "white", fontWeight: "bold"}}> Bookmarks </Text>
-                <Text>
+        noBookmarksMsg = (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 15, fontWeight: "bold"}}>
                     It seems like you have no bookmarks!
+                </Text>
+                <Text style={{fontSize: 15, fontWeight: "bold"}}>
                     You can bookmark questions by clicking on the bookmark icon
                     in the upper right hand corner of the question screen
                     (where you see the answers).
-
+                </Text>
+                <Text style={{fontSize: 15, fontWeight: "bold"}}>
                     Swipe down on this screen at any time
                     to refresh your bookmarks!
                 </Text>
-            </ViewContainer>
-        )
+            </View>
+        );
+    } else {
+        noBookmarksMsg = (<View></View>);
     }
+
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -85,13 +93,13 @@ constructor(props) {
           dataSource = {this.state.peopleDataSource}
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
-          style = {{marginBottom: 50}}
           refreshControl={
               <RefreshControl
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh.bind(this)} />
           }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+        {noBookmarksMsg}
       </ViewContainer>
     );
   }
