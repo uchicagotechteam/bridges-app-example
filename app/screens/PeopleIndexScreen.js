@@ -12,6 +12,7 @@ import {
   ListView,
   Image,
   TouchableOpacity,
+  RefreshControl,
   Button,
   Alert,
   SegmentedControlIOS
@@ -29,9 +30,10 @@ constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
-      'response': [],
+      response: [],
       peopleDataSource: ds.cloneWithRows(response),
-      'searchTerm': null
+      searchTerm: null,
+      refreshing: false,
     }
   }
 
@@ -39,11 +41,17 @@ constructor(props) {
       this._getQuestions();
   }
 
+  _onRefresh() {
+      this.setState({refreshing: true});
+      this._getQuestions();
+  }
+
   _getQuestions() {
       bridges_client.getQuestions(function(response) {
           this.setState({
               'response': response.results,
-              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response.results)
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response.results),
+              refreshing: false,
           });
       }.bind(this));
   }
@@ -85,6 +93,11 @@ constructor(props) {
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
           style = {{marginBottom: 50}}
+          refreshControl={
+              <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)} />
+          }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
       </ViewContainer>
     );
