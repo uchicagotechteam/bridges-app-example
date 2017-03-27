@@ -10,7 +10,6 @@ import {
   Text,
   View,
   ListView,
-  RefreshControl,
   Image,
   TouchableOpacity,
   Button,
@@ -32,13 +31,7 @@ constructor(props) {
     this.state = {
       response: [],
       peopleDataSource: ds.cloneWithRows(response),
-      refreshing: false,
     }
-  }
-
-  _onRefresh() {
-      this.setState({refreshing: true});
-      this._getQuestions();
   }
 
   _getQuestions() {
@@ -58,7 +51,13 @@ constructor(props) {
   }
 
   componentDidMount() {
-      this._getQuestions();
+      this._interval = setInterval(() => {
+          this._getQuestions();
+      }, 200);
+  }
+
+  componentWillUnmount() {
+      clearInterval(this._interval);
   }
 
   render() {
@@ -93,11 +92,6 @@ constructor(props) {
           dataSource = {this.state.peopleDataSource}
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
-          refreshControl={
-              <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh.bind(this)} />
-          }
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
         {noBookmarksMsg}
       </ViewContainer>
