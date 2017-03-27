@@ -15,7 +15,6 @@ function retrieveBookmarks(callback) {
     }).then((bookmarks) => {
         console.log('bookmarks', bookmarks);
         if (bookmarks) {
-            console.log('tryna parse?');
             callback(JSON.parse(bookmarks));
             return;
         }
@@ -24,6 +23,7 @@ function retrieveBookmarks(callback) {
 }
 
 function addBookmark(question) {
+    console.log("This shit?");
     retrieveBookmarks(function(bookmarks) {
          if (bookmarks) {
              if (!containsQuestion(question.id, bookmarks)) {
@@ -32,7 +32,6 @@ function addBookmark(question) {
                  });
              }
          } else {
-             console.log('new bookmarks list');
              // Create a bookmarks list with a single question
              SInfo.setItem('bookmarks', JSON.stringify([question]), {
                   sharedPreferencesName: 'shared_preferences'
@@ -55,12 +54,9 @@ function removeBookmark(question_id) {
     });
 }
 
-function isBookmarked(question_id) {
-    return retrieveBookmarks(function(bookmarks) {
-        if (bookmarks) {
-            return true;
-        }
-        return false;
+function isBookmarked(question_id, callback) {
+    retrieveBookmarks(function(bookmarks) {
+        callback(!containsQuestion(question_id, bookmarks));
     });
 }
 
@@ -75,5 +71,6 @@ module.exports = {
     retrieveLocalBookmarks: retrieveBookmarks,
     addLocalBookmark: addBookmark,
     removeLocalBookmark: removeBookmark,
-    clearLocalBoomarks: clearBoomarks
+    clearLocalBoomarks: clearBoomarks,
+    isBookmarked: isBookmarked,
 }

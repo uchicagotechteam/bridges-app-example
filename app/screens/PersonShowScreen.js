@@ -22,8 +22,14 @@ export default class PersonShowScreen extends Component {
       super(props)
   }
 
-  addQuestionToBookmarks() {
-      bookmark_manager.addLocalBookmark(this.props.question);
+  toggleBookmark() {
+      bookmark_manager.isBookmarked(this.props.question_id, function(bookmarked) {
+          if (bookmarked) {
+              bookmark_manager.removeLocalBookmark(this.props.question.id);
+          } else {
+              bookmark_manager.addLocalBookmark(this.props.question);
+          }
+      }.bind(this));
   }
 
   _returnToPreviousPage(question) {
@@ -46,7 +52,7 @@ export default class PersonShowScreen extends Component {
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
-          <TouchableOpacity onPress={() => this.addQuestionToBookmarks()}>
+          <TouchableOpacity onPress={() => this.toggleBookmark()}>
               <Image source={require('./face.jpg')} style={styles.rightPhoto} />
           </TouchableOpacity>
         </View>
