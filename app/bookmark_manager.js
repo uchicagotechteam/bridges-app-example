@@ -55,6 +55,15 @@ function removeBookmark(question_id) {
     });
 }
 
+function isBookmarked(question_id) {
+    return retrieveBookmarks(function(bookmarks) {
+        if (bookmarks) {
+            return true;
+        }
+        return false;
+    });
+}
+
 function clearBoomarks() {
     SInfo.deleteItem('bookmarks', {
         sharedPreferencesName: 'shared_preferences'
