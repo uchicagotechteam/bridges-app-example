@@ -75,7 +75,6 @@ constructor(props) {
     var question_display;
     console.log('searchTerm', this.state.searchTerm, 'response', this.state.response);
     if (this.state.searchTerm && this.state.response.length === 0) {
-        console.log('hello');
         questionDisplay = (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Text style={{fontSize: 15, fontWeight: "bold"}}>
