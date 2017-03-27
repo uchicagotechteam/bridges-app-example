@@ -12,6 +12,7 @@ import {
   ListView,
   Image,
   TouchableOpacity,
+  RefreshControl,
   Button,
   Alert,
   SegmentedControlIOS
@@ -29,9 +30,10 @@ constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
     this.state = {
-      'response': [],
+      response: [],
       peopleDataSource: ds.cloneWithRows(response),
-      'searchTerm': null
+      searchTerm: null,
+      refreshing: false,
     }
   }
 
@@ -39,11 +41,17 @@ constructor(props) {
       this._getQuestions();
   }
 
+  _onRefresh() {
+      this.setState({refreshing: true});
+      this._getQuestions();
+  }
+
   _getQuestions() {
       bridges_client.getQuestions(function(response) {
           this.setState({
               'response': response.results,
-              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response.results)
+              peopleDataSource: this.state.peopleDataSource.cloneWithRows(response.results),
+              refreshing: false,
           });
       }.bind(this));
   }
@@ -64,6 +72,32 @@ constructor(props) {
   }
 
   render() {
+    var question_display;
+    console.log('searchTerm', this.state.searchTerm, 'response', this.state.response);
+    if (this.state.searchTerm && this.state.response.length === 0) {
+        questionDisplay = (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                    There are no results matching "{this.state.searchTerm}"
+                </Text>
+            </View>
+        );
+    } else {
+        questionDisplay = (
+          <ListView
+          dataSource = {this.state.peopleDataSource}
+          renderRow={(question) => {return this._renderPersonRow(question)}}
+          automaticallyAdjustContentInsets={false}
+          style = {{marginBottom: 50}}
+          refreshControl={
+              <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)} />
+          }
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+        );
+    }
+
     return (
      <ViewContainer>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -73,19 +107,14 @@ constructor(props) {
           placeholder='Search'
           onChangeText={(text) => {
               this.setState({searchTerm: text});
-              if (text.length > 2) {
+              if (text.length > 0) {
                   this._searchQuestions();
               } else {
                   this._getQuestions();
               }
           }}
         />
-        <ListView
-          dataSource = {this.state.peopleDataSource}
-          renderRow={(question) => {return this._renderPersonRow(question)}}
-          automaticallyAdjustContentInsets={false}
-          style = {{marginBottom: 50}}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+        {questionDisplay}
       </ViewContainer>
     );
   }

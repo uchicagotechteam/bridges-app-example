@@ -26,11 +26,22 @@ export default class PersonShowScreen extends Component {
       bookmark_manager.addLocalBookmark(this.props.question);
   }
 
+  _returnToPreviousPage(question) {
+      this.props.navigator.pop();
+  }
+
   render() {
     return (
      <View>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Answer</Text>
+        <View style={{flexDirection: 'row', backgroundColor: "#00857c",
+            height: 40, justifyContent: 'center'}}>
+            <TouchableOpacity onPress={this._returnToPreviousPage.bind(this)}>
+                <Image source={require('./images/back_button.png')} style={styles.backButton}/>
+            </TouchableOpacity>
+            <Text style={{fontSize: 22, color: "white", textAlign: "center",
+                fontWeight: "bold"}}> Answer </Text>
+        </View>
         <Text style={{marginTop: 20, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>{this.props.question.title}</Text>
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
@@ -48,6 +59,12 @@ export default class PersonShowScreen extends Component {
 const styles = StyleSheet.create({
   personName: {
     fontWeight: "bold"
+  },
+  backButton: {
+      height: 20,
+      width: 20,
+      marginTop: 5,
+      marginLeft: 5,
   },
   photo: {
     height: 50,

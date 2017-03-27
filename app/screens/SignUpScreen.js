@@ -114,6 +114,10 @@ export default class SignUpScreen extends Component {
 
   render() {
     return (
+        <ViewContainer>
+        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+        <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
+            fontSize: 22, color: "white", fontWeight: "bold"}}> Sign Up </Text>
         <TouchableWithoutFeedback style={styles.container} onPress={ () => { dismissKeyboard() } }>
             <ScrollView>
             <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
@@ -250,6 +254,7 @@ export default class SignUpScreen extends Component {
          </KeyboardAvoidingView>
         </ScrollView>
      </TouchableWithoutFeedback>
+    </ViewContainer>
     );
   }
 }
