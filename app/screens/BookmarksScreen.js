@@ -92,7 +92,9 @@ constructor(props) {
           dataSource = {this.state.peopleDataSource}
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
+          enableEmptySections={true}
+          />
         {noBookmarksMsg}
       </ViewContainer>
     );

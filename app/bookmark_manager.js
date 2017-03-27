@@ -54,9 +54,9 @@ function removeBookmark(question_id) {
     });
 }
 
-function isBookmarked(question_id, callback) {
+function isBookmarked(questionId, callback) {
     retrieveBookmarks(function(bookmarks) {
-        callback(!containsQuestion(question_id, bookmarks));
+        callback(containsQuestion(questionId, bookmarks));
     });
 }
 

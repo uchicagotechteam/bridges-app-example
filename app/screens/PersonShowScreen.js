@@ -23,7 +23,7 @@ export default class PersonShowScreen extends Component {
   }
 
   toggleBookmark() {
-      bookmark_manager.isBookmarked(this.props.question_id, function(bookmarked) {
+      bookmark_manager.isBookmarked(this.props.question.id, function(bookmarked) {
           if (bookmarked) {
               bookmark_manager.removeLocalBookmark(this.props.question.id);
           } else {
@@ -52,7 +52,7 @@ export default class PersonShowScreen extends Component {
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
-          <TouchableOpacity onPress={() => this.toggleBookmark()}>
+          <TouchableOpacity onPress={this.toggleBookmark.bind(this)}>
               <Image source={require('./face.jpg')} style={styles.rightPhoto} />
           </TouchableOpacity>
         </View>

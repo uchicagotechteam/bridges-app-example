@@ -94,7 +94,9 @@ constructor(props) {
                   refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh.bind(this)} />
           }
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}/>
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
+          enableEmptySections={true}
+          />
         );
     }
 
