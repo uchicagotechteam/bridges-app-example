@@ -54,8 +54,7 @@ export default class PersonShowScreen extends Component {
   }
 
   render() {
-    var bookmarkImage = './images/bookmark_active.jpg';
-    var bookmarkImage2 = this.state.bookmarked
+    var bookmarkImage = this.state.bookmarked
     ? require('./images/bookmark_active.jpg')
     : require('./images/bookmark_inactive.jpg');
 
@@ -80,7 +79,7 @@ export default class PersonShowScreen extends Component {
                 <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
             </View>
           <TouchableOpacity style={{marginTop: 5, marginBottom: 5}} onPress={this.toggleBookmark.bind(this)}>
-              <Image source={bookmarkImage2} style={styles.bookmarkIcon} />
+              <Image source={bookmarkImage} style={styles.bookmarkIcon} />
           </TouchableOpacity>
         </View>
         <Text style={{marginTop: 20, marginLeft: 15, fontSize: 20}}>
