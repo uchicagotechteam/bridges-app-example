@@ -38,11 +38,24 @@ constructor(props) {
   }
 
   _logout() {
-      SInfo.deleteItem('token', {
-          sharedPreferencesName: 'shared_preferences'
+      // First we save our local data (just bookmarks for now)
+      bookmark_manager.retrieveLocalBookmarks(function(bookmarks) {
+          var bookmarkIds = bookmarks.map(function(question){
+              return question.id;
+          });
+
+          bridges_client.setRemoteBookmarks(bookmarkIds, function(response) {
+              if (response.ok) {
+                  bookmark_manager.clearLocalBoomarks();
+                  // Then we clear the token
+                  SInfo.deleteItem('token', {
+                      sharedPreferencesName: 'shared_preferences'
+                  });
+
+                  // Should then navigate to login screen
+              }
+          })
       });
-      bookmark_manager.clearLocalBoomarks();
-      // Should then navigate to login screen
   }
 
   componentDidMount() {

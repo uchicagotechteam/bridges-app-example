@@ -20,6 +20,9 @@ var bookmark_manager = require('../bookmark_manager');
 export default class PersonShowScreen extends Component {
   constructor(props) {
       super(props)
+      this.state = {
+          bookmarked: this.props.bookmarked,
+      }
   }
 
   toggleBookmark() {
@@ -32,11 +35,30 @@ export default class PersonShowScreen extends Component {
       }.bind(this));
   }
 
+  componentDidMount() {
+      this._interval = setInterval(() => {
+          bookmark_manager.isBookmarked(this.props.question.id, function(bookmarked) {
+             this.setState({
+                bookmarked: bookmarked
+             });
+         }.bind(this));
+      }, 200);
+  }
+
+  componentWillUnmount() {
+      clearInterval(this._interval);
+  }
+
   _returnToPreviousPage(question) {
       this.props.navigator.pop();
   }
 
   render() {
+    var bookmarkImage = './images/bookmark_active.jpg';
+    var bookmarkImage2 = this.state.bookmarked
+    ? require('./images/bookmark_active.jpg')
+    : require('./images/bookmark_inactive.jpg');
+
     return (
      <View>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -48,15 +70,22 @@ export default class PersonShowScreen extends Component {
             <Text style={{fontSize: 22, color: "white", textAlign: "center",
                 fontWeight: "bold"}}> Answer </Text>
         </View>
-        <Text style={{marginTop: 20, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>{this.props.question.title}</Text>
-        <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
-          <Image source={require('./face.jpg')} style={styles.photo} />
-          <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
-          <TouchableOpacity onPress={this.toggleBookmark.bind(this)}>
-              <Image source={require('./face.jpg')} style={styles.rightPhoto} />
+        <Text style={{marginTop: 20, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>
+            {this.props.question.title}
+        </Text>
+        <View style={{flexDirection:"row", marginTop: 5, marginBottom: 5,
+            justifyContent: "space-between"}}>
+            <View style={{flexDirection:"row"}}>
+                <Image source={require('./face.jpg')} style={styles.photo} />
+                <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
+            </View>
+          <TouchableOpacity style={{marginTop: 5, marginBottom: 5}} onPress={this.toggleBookmark.bind(this)}>
+              <Image source={bookmarkImage2} style={styles.bookmarkIcon} />
           </TouchableOpacity>
         </View>
-        <Text style={{marginTop: 20, marginLeft: 15, fontSize: 20}}>{this.props.question.answer}</Text>
+        <Text style={{marginTop: 20, marginLeft: 15, fontSize: 20}}>
+            {this.props.question.answer}
+        </Text>
       </View>
     );
   }
@@ -79,10 +108,11 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     borderRadius: 25,
   },
-  rightPhoto: {
+  bookmarkIcon: {
       height: 50,
       width: 50,
-      marginRight: 30,
+      marginTop: 10,
+      marginRight: 20,
   }
 });
 

@@ -83,7 +83,6 @@ export default class BridgesAppExample extends Component {
 
   componentWillMount() {
       bridges_client.getUserInfo(function(response) {
-         console.log('lelelele', response);
          if (response.email) {
              this.setState({initialIdent: "Main"});
          }

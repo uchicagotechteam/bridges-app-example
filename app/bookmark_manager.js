@@ -13,7 +13,6 @@ function retrieveBookmarks(callback) {
     return SInfo.getItem('bookmarks', {
         sharedPreferencesName: 'shared_preferences'
     }).then((bookmarks) => {
-        console.log('bookmarks', bookmarks);
         if (bookmarks) {
             callback(JSON.parse(bookmarks));
             return;
@@ -23,7 +22,6 @@ function retrieveBookmarks(callback) {
 }
 
 function addBookmark(question) {
-    console.log("This shit?");
     retrieveBookmarks(function(bookmarks) {
          if (bookmarks) {
              if (!containsQuestion(question.id, bookmarks)) {
@@ -64,7 +62,6 @@ function clearBoomarks() {
     SInfo.deleteItem('bookmarks', {
         sharedPreferencesName: 'shared_preferences'
     });
-    console.log('cleared bookmarks');
 }
 
 module.exports = {

@@ -22,7 +22,7 @@ import StatusBarBackground from '../components/StatusBarBackground'
 var bridges_client = require('../bridges_client');
 var bookmark_manager = require('../bookmark_manager');
 
-const response = []
+const response = [];
 
 export default class BookmarkScreen extends Component {
 constructor(props) {
@@ -61,26 +61,29 @@ constructor(props) {
   }
 
   render() {
-    var noBookmarksMsg;
+    var bookmarksDisplay;
     if (!this.state.response || !this.state.response.length) {
-        noBookmarksMsg = (
+        bookmarksDisplay = (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{fontSize: 15, fontWeight: "bold"}}>
+                <Text style={{fontSize: 15, fontWeight: "bold", marginBottom: 10}}>
                     It seems like you have no bookmarks!
                 </Text>
                 <Text style={{fontSize: 15, fontWeight: "bold"}}>
                     You can bookmark questions by clicking on the bookmark icon
-                    in the upper right hand corner of the question screen
-                    (where you see the answers).
-                </Text>
-                <Text style={{fontSize: 15, fontWeight: "bold"}}>
-                    Swipe down on this screen at any time
-                    to refresh your bookmarks!
+                    in the upper right hand corner of the answer screen.
                 </Text>
             </View>
         );
     } else {
-        noBookmarksMsg = (<View></View>);
+        bookmarksDisplay = (
+            <ListView
+              dataSource = {this.state.peopleDataSource}
+              renderRow={(question) => {return this._renderPersonRow(question)}}
+              automaticallyAdjustContentInsets={false}
+              renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
+              enableEmptySections={true}
+              />
+        );
     }
 
     return (
@@ -88,14 +91,7 @@ constructor(props) {
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
             fontSize: 22, color: "white", fontWeight: "bold"}}> Bookmarks </Text>
-        <ListView
-          dataSource = {this.state.peopleDataSource}
-          renderRow={(question) => {return this._renderPersonRow(question)}}
-          automaticallyAdjustContentInsets={false}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
-          enableEmptySections={true}
-          />
-        {noBookmarksMsg}
+        {bookmarksDisplay}
       </ViewContainer>
     );
   }
@@ -114,11 +110,14 @@ constructor(props) {
   }
 
   _navigateToPersonShow(question) {
-    this.props.navigator.push({
-      ident: "PersonShow",
-      question: question,
-  })
-}
+      bookmark_manager.isBookmarked(question.id, function(bookmarked) {
+          this.props.navigator.push({
+              ident: "PersonShow",
+              question: question,
+              bookmarked: bookmarked,
+          });
+      }.bind(this));
+  }
 }
 const styles = StyleSheet.create({
   container: {

@@ -21,6 +21,7 @@ import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 
 var bridges_client = require('../bridges_client');
+var bookmark_manager = require('../bookmark_manager');
 var SearchBar = require('react-native-search-bar');
 
 const response = []
@@ -39,6 +40,17 @@ constructor(props) {
 
   componentDidMount() {
       this._getQuestions();
+      this._syncBookmarksWithServer();
+  }
+
+  _syncBookmarksWithServer() {
+      bridges_client.getRemoteBookmarks(function(response) {
+          if (response.ok) {
+              response.bookmarks.map(function(question) {
+                 bookmark_manager.addLocalBookmark(question);
+              });
+          }
+      }.bind(this));
   }
 
   _onRefresh() {
@@ -73,7 +85,6 @@ constructor(props) {
 
   render() {
     var question_display;
-    console.log('searchTerm', this.state.searchTerm, 'response', this.state.response);
     if (this.state.searchTerm && this.state.response.length === 0) {
         questionDisplay = (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -135,12 +146,16 @@ constructor(props) {
   }
 
   _navigateToPersonShow(question) {
-    this.props.navigator.push({
-      ident: "PersonShow",
-      question: question,
-  })
+      bookmark_manager.isBookmarked(question.id, function(bookmarkedStatus) {
+          this.props.navigator.push({
+              ident: "PersonShow",
+              question: question,
+              bookmarked: bookmarkedStatus,
+          });
+      }.bind(this));
+  }
 }
-}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
