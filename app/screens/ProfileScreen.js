@@ -53,8 +53,15 @@ constructor(props) {
                   });
 
                   // Should then navigate to login screen
+                 this._resetAndNavigateToLogin();
               }
-          })
+          }.bind(this));
+      }.bind(this));
+  }
+
+  _resetAndNavigateToLogin() {
+      this.props.navigator.resetTo({
+        ident: "Login"
       });
   }
 

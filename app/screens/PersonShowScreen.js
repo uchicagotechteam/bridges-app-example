@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 var bookmark_manager = require('../bookmark_manager');
@@ -50,7 +51,7 @@ export default class PersonShowScreen extends Component {
   }
 
   _returnToPreviousPage(question) {
-      this.props.navigator.pop();
+      this.props.navigator.jumpBack();
   }
 
   render() {

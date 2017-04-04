@@ -20,11 +20,15 @@ import PersonShowScreen from './PersonShowScreen';
 import PeopleIndexScreen from './PeopleIndexScreen';
 import ProfileScreen from './ProfileScreen';
 import SignUpScreen from './SignUpScreen';
+import LoginScreen from './LoginScreen';
 
 export default class Main extends Component {
   constructor() {
     super();
-    this.state = {selectedTab: 'tabOne', currentScreen: 'login'}
+    this.state = {
+        selectedTab: 'tabOne',
+        currentScreen: 'login'
+    };
   }
 
   setTab(tabId) {
@@ -78,9 +82,10 @@ export default class Main extends Component {
           {...globalNavigatorProps} />
         )
     }
-  }
+}
 
   render() {
+
     return (
         <TabBarIOS>
            <TabBarIOS.Item

@@ -39,7 +39,7 @@ function login(username, password, callback) {
         callback(response);
     })
     .catch((error) => {
-        alert(error);
+        console.error(error);
     });
 }
 
@@ -58,7 +58,7 @@ function _sendData(endpoint, data, callback) {
         callback(response);
     })
     .catch((error) => {
-        alert(error);
+        console.error(error);
     });
 }
 
@@ -73,7 +73,7 @@ function _setData(endpoint, data, callback, method) {
             callback(response);
         })
         .catch((error) => {
-            alert(error);
+            console.error(error);
         });
     }, 'application/json');
 }
@@ -91,7 +91,7 @@ function _getData(endpoint, callback, method) {
             callback(responseJson);
         })
         .catch((error) => {
-            alert(error);
+            console.error(error);
         });
     });
 }

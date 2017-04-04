@@ -88,6 +88,8 @@ export default class BridgesAppExample extends Component {
          }
          this.setState({loading: false});
       }.bind(this));
+
+
   }
 
 
@@ -102,8 +104,8 @@ export default class BridgesAppExample extends Component {
           );
       } else {
           return (
-           <View>
-               <Text>Just a moment :)</Text>
+           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+               <Text> Connecting to server... </Text>
            </View>
         );
       }
