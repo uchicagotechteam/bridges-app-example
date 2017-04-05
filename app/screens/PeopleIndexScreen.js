@@ -47,11 +47,8 @@ constructor(props) {
 
   _syncBookmarksWithServer() {
       bridges_client.getRemoteBookmarks(function(response) {
-          if (response.ok) {
-              response.bookmarks.map(function(question) {
-                 bookmark_manager.addLocalBookmark(question);
-              });
-          }
+          var bookmarkedQuestions = JSON.parse(response.bookmarks);
+          bookmark_manager.writeSetOfBookmarks(bookmarkedQuestions);
       }.bind(this));
   }
 
@@ -89,6 +86,7 @@ constructor(props) {
     var question_display;
     var searchInput;
 
+    // Get the native iOS search bar on iOS and the android version on android
     if (!this.state.onIOS) {
         searchInput = (
             <TextInput

@@ -38,6 +38,15 @@ function addBookmark(question) {
      });
 }
 
+function writeSetOfBookmarks(bookmarks, callback) {
+    SInfo.setItem('bookmarks', JSON.stringify(bookmarks), {
+        sharedPreferencesName: 'shared_preferences'
+    });
+    if (callback) {
+        callback();
+    }
+}
+
 function removeBookmark(question_id) {
     retrieveBookmarks(function(bookmarks) {
         if (bookmarks) {
@@ -70,4 +79,5 @@ module.exports = {
     removeLocalBookmark: removeBookmark,
     clearLocalBoomarks: clearBoomarks,
     isBookmarked: isBookmarked,
+    writeSetOfBookmarks: writeSetOfBookmarks,
 }

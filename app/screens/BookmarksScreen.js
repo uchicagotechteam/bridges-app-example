@@ -39,7 +39,6 @@ constructor(props) {
           this.setState({
               'response': bookmarks,
               peopleDataSource: this.state.peopleDataSource.cloneWithRows(bookmarks),
-              refreshing: false,
           });
       }.bind(this));
   }

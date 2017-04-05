@@ -38,7 +38,7 @@ constructor(props) {
   }
 
   _logout() {
-      // First we save our local data (just bookmarks for now)
+      // First we send our local data to the server (just bookmarks for now)
       bookmark_manager.retrieveLocalBookmarks(function(bookmarks) {
           var bookmarkIds = bookmarks.map(function(question){
               return question.id;
@@ -47,6 +47,7 @@ constructor(props) {
           bridges_client.setRemoteBookmarks(bookmarkIds, function(response) {
               if (response.ok) {
                   bookmark_manager.clearLocalBoomarks();
+
                   // Then we clear the token
                   SInfo.deleteItem('token', {
                       sharedPreferencesName: 'shared_preferences'
