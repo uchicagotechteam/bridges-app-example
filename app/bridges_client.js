@@ -123,6 +123,7 @@ function getBookmarks(callback) {
 
 function setBookmarks(bookmarkIds, callback) {
     // Sets bookmarks on the server for the user
+    console.log({bookmarks: bookmarkIds});
     return _setData('bookmarks/', {bookmarks: bookmarkIds}, callback);
 }
 

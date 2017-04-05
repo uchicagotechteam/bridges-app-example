@@ -11,11 +11,12 @@ import {
   View,
   ListView,
   Image,
+  TextInput,
   TouchableOpacity,
   RefreshControl,
   Button,
   Alert,
-  SegmentedControlIOS
+  Platform,
 } from 'react-native';
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
@@ -24,7 +25,7 @@ var bridges_client = require('../bridges_client');
 var bookmark_manager = require('../bookmark_manager');
 var SearchBar = require('react-native-search-bar');
 
-const response = []
+const response = [];
 
 export default class PeopleIndexScreen extends Component {
 constructor(props) {
@@ -35,8 +36,9 @@ constructor(props) {
       peopleDataSource: ds.cloneWithRows(response),
       searchTerm: null,
       refreshing: false,
-    }
-  }
+      onIOS: Platform.OS === 'ios',
+  };
+ }
 
   componentDidMount() {
       this._getQuestions();
@@ -85,6 +87,38 @@ constructor(props) {
 
   render() {
     var question_display;
+    var searchInput;
+
+    if (!this.state.onIOS) {
+        searchInput = (
+            <TextInput
+              placeholder='Search'
+              onChangeText={(text) => {
+                  this.setState({searchTerm: text});
+                  if (text.length > 0) {
+                      this._searchQuestions();
+                  } else {
+                      this._getQuestions();
+                  }
+              }}
+            />
+        );
+    } else {
+        searchInput = (
+            <SearchBar
+              placeholder='Search'
+              onChangeText={(text) => {
+                  this.setState({searchTerm: text});
+                  if (text.length > 2) {
+                      this._searchQuestions();
+                  } else {
+                      this._getQuestions();
+                  }
+              }}
+            />
+        );
+    }
+
     if (this.state.searchTerm && this.state.response.length === 0) {
         questionDisplay = (
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -99,7 +133,6 @@ constructor(props) {
           dataSource = {this.state.peopleDataSource}
           renderRow={(question) => {return this._renderPersonRow(question)}}
           automaticallyAdjustContentInsets={false}
-          style = {{marginBottom: 50}}
           refreshControl={
               <RefreshControl
                   refreshing={this.state.refreshing}
@@ -116,17 +149,7 @@ constructor(props) {
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
             fontSize: 22, color: "white", fontWeight: "bold"}}> Question Feed </Text>
-        <SearchBar
-          placeholder='Search'
-          onChangeText={(text) => {
-              this.setState({searchTerm: text});
-              if (text.length > 0) {
-                  this._searchQuestions();
-              } else {
-                  this._getQuestions();
-              }
-          }}
-        />
+        {searchInput}
         {questionDisplay}
       </ViewContainer>
     );
@@ -207,6 +230,10 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     fontSize: 12,
     color: "grey"
+  },
+  input: {
+      padding: 0,
+      height: 40,
   }
 });
 

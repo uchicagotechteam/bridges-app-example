@@ -15,8 +15,6 @@ import {
   View
 } from 'react-native';
 
-import TabNavigator from 'react-native-tab-navigator';
-
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'

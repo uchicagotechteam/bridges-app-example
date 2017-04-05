@@ -10,10 +10,12 @@ import {
   StyleSheet,
   ScrollView,
   Navigator,
-  TabBarIOS,
   Text,
   View
 } from 'react-native';
+
+import TabNavigator from 'react-native-tab-navigator';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BookmarksScreen from './BookmarksScreen';
 import PersonShowScreen from './PersonShowScreen';
@@ -21,6 +23,15 @@ import PeopleIndexScreen from './PeopleIndexScreen';
 import ProfileScreen from './ProfileScreen';
 import SignUpScreen from './SignUpScreen';
 import LoginScreen from './LoginScreen';
+
+const profileHeadSelected = (<Icon name="user" size={28} color="#000" />);
+const profileHeadUnselected = (<Icon name="user-o" size={28} color="#00857C" />);
+
+const searchSelected = (<Icon name="search" size={26} color="#000" />);
+const searchUnselected = (<Icon name="search" size={26} color="#00857C" />);
+
+const bookmarkSelected = (<Icon name="bookmark" size={28} color="#000" />);
+const bookmarkUnselected = (<Icon name="bookmark-o" size={28} color="#00857C" />);
 
 export default class Main extends Component {
   constructor() {
@@ -85,41 +96,46 @@ export default class Main extends Component {
 }
 
   render() {
+      return (
+        <TabNavigator>
+           <TabNavigator.Item
+               title="Questions"
+               renderIcon={() => searchUnselected}
+               renderSelectedIcon={() => searchSelected}
+               selected={this.state.selectedTab == 'tabOne'}
+               onPress={() => this.setTab('tabOne')}>
+               <Navigator
+                   initialRoute={{ident: "PeopleIndex"}}
+                   ref="appNavigator"
+                   renderScene={this._renderScene} />
+           </TabNavigator.Item>
 
-    return (
-        <TabBarIOS>
-           <TabBarIOS.Item
-                systemIcon="search"
-                selected={this.state.selectedTab == 'tabOne'}
-                onPress={() => this.setTab('tabOne')}>
+           <TabNavigator.Item
+               title="Profile"
+               renderIcon={() => profileHeadUnselected}
+               renderSelectedIcon={() => profileHeadSelected}
+               selected={this.state.selectedTab == 'tabTwo'}
+               onPress={() => this.setTab('tabTwo')}>
+               <Navigator
+                   initialRoute={{ident: "Profile"}}
+                   ref="appNavigator"
+                   renderScene={this._renderScene} />
+            </TabNavigator.Item>
+
+            <TabNavigator.Item
+                title="Bookmarks"
+                renderIcon={() => bookmarkUnselected}
+                renderSelectedIcon={() => bookmarkSelected}
+                selected={this.state.selectedTab == 'tabThree'}
+                onPress={() => this.setTab('tabThree')}>
                 <Navigator
-                    initialRoute={{ident: "PeopleIndex"}}
+                    initialRoute={{ident: "Bookmarks"}}
                     ref="appNavigator"
                     renderScene={this._renderScene} />
-            </TabBarIOS.Item>
-
-          <TabBarIOS.Item
-                systemIcon="contacts"
-                selected={this.state.selectedTab == 'tabTwo'}
-                onPress={() => this.setTab('tabTwo')}>
-                <Navigator
-                    initialRoute={{ident: "Profile"}}
-                    ref="appNavigator"
-                    renderScene={this._renderScene} />
-            </TabBarIOS.Item>
-
-            <TabBarIOS.Item
-                  systemIcon="bookmarks"
-                  selected={this.state.selectedTab == 'tabThree'}
-                  onPress={() => this.setTab('tabThree')}>
-                  <Navigator
-                      initialRoute={{ident: "Bookmarks"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-              </TabBarIOS.Item>
-          </TabBarIOS>
-          );
-      }
-  }
+            </TabNavigator.Item>
+        </TabNavigator>
+    );
+}
+}
 
 module.exports = Main
