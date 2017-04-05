@@ -95,12 +95,19 @@ const styles = StyleSheet.create({
   personName: {
     fontWeight: "bold"
   },
+
   backButton: {
       height: 20,
       width: 20,
       marginTop: 5,
       marginLeft: 5,
   },
+
+  description: {
+      marginTop: 20,
+      marginLeft: 15
+  },
+
   photo: {
     height: 50,
     width: 50,
@@ -108,6 +115,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     borderRadius: 25,
   },
+  
   bookmarkIcon: {
       height: 50,
       width: 50,
