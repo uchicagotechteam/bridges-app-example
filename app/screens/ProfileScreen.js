@@ -60,7 +60,7 @@ constructor(props) {
   }
 
   _resetAndNavigateToLogin() {
-      this.props.navigator.resetTo({
+      this.props.globalNavigator.resetTo({
         ident: "Login"
       });
   }

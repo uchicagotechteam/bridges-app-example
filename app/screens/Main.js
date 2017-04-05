@@ -34,8 +34,8 @@ const bookmarkSelected = (<Icon name="bookmark" size={28} color="#000" />);
 const bookmarkUnselected = (<Icon name="bookmark-o" size={28} color="#00857C" />);
 
 export default class Main extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
         selectedTab: 'tabOne',
         currentScreen: 'login'
@@ -44,6 +44,12 @@ export default class Main extends Component {
 
   setTab(tabId) {
     this.setState({selectedTab: tabId})
+  }
+
+  _returnToLogin() {
+      this.props.navigator.push({
+          ident: 'Login',
+      });
   }
 
   _renderScene(route, navigator) {
@@ -72,6 +78,7 @@ export default class Main extends Component {
       case "Profile":
         return (
         <ProfileScreen
+            globalNavigator={route.globalNavigator}
             {...globalNavigatorProps} />
         )
 
@@ -117,7 +124,10 @@ export default class Main extends Component {
                selected={this.state.selectedTab == 'tabTwo'}
                onPress={() => this.setTab('tabTwo')}>
                <Navigator
-                   initialRoute={{ident: "Profile"}}
+                   initialRoute={{
+                       ident: "Profile",
+                       globalNavigator: this.props.navigator,
+                   }}
                    ref="appNavigator"
                    renderScene={this._renderScene} />
             </TabNavigator.Item>
