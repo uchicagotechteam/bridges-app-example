@@ -15,7 +15,8 @@
     "react-native-modal-dropdown": "^0.4.1",
     "react-native-search-bar": "^3.0.0",
     "react-native-sensitive-info": "^4.0.0",
-    "react-native-tab-navigator": "^0.3.3"
+    "react-native-tab-navigator": "^0.3.3",
+    "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",

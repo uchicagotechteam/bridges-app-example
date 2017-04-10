@@ -25,6 +25,7 @@ const response = []
 
 var bridges_client = require('../bridges_client');
 var settings = require('../../settings');
+var bookmark_manager = require('../bookmark_manager');
 
 export default class ProfileScreen extends Component {
 
@@ -37,10 +38,32 @@ constructor(props) {
   }
 
   _logout() {
-      SInfo.deleteItem('token', {
-          sharedPreferencesName: 'shared_preferences'
+      // First we send our local data to the server (just bookmarks for now)
+      bookmark_manager.retrieveLocalBookmarks(function(bookmarks) {
+          var bookmarkIds = bookmarks.map(function(question){
+              return question.id;
+          });
+
+          bridges_client.setRemoteBookmarks(bookmarkIds, function(response) {
+              if (response.ok) {
+                  bookmark_manager.clearLocalBoomarks();
+
+                  // Then we clear the token
+                  SInfo.deleteItem('token', {
+                      sharedPreferencesName: 'shared_preferences'
+                  });
+
+                  // Should then navigate to login screen
+                 this._resetAndNavigateToLogin();
+              }
+          }.bind(this));
+      }.bind(this));
+  }
+
+  _resetAndNavigateToLogin() {
+      this.props.globalNavigator.resetTo({
+        ident: "Login"
       });
-      // Should then navigate to login screen
   }
 
   componentDidMount() {
@@ -53,11 +76,13 @@ constructor(props) {
 
   render() {
     return (
+    <ViewContainer>
+    <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
+    <Text style={{height:40, textAlign: "center",
+        backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>
+        Profile </Text>
      <ScrollView>
-     <ViewContainer>
-        <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
         <View style={{backgroundColor:"white"}}>
-          <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",fontSize: 22, color: "white", fontWeight: "bold"}}>Profile Page</Text>
           <Image source={require('./face.jpg')} style={styles.photo} />
           <Text style={{fontSize: 30, marginTop: 15, textAlign: 'center', fontWeight: 'bold'}}>
               {this.state.profile.first_name} {this.state.profile.last_name} </Text>
@@ -85,8 +110,8 @@ constructor(props) {
               <Text style={styles.buttonText}>Logout</Text>
             </View>
         </TouchableOpacity>
-      </ViewContainer>
     </ScrollView>
+    </ViewContainer>
     );
   }
 }
@@ -135,7 +160,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       marginTop: 9,
-      marginBottom: 20,
   },
   bottomArea: {
       paddingVertical: 0,

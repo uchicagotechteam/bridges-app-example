@@ -15,8 +15,6 @@ import {
   View
 } from 'react-native';
 
-import TabNavigator from 'react-native-tab-navigator';
-
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
@@ -83,12 +81,13 @@ export default class BridgesAppExample extends Component {
 
   componentWillMount() {
       bridges_client.getUserInfo(function(response) {
-         console.log('lelelele', response);
          if (response.email) {
              this.setState({initialIdent: "Main"});
          }
          this.setState({loading: false});
       }.bind(this));
+
+
   }
 
 
@@ -103,8 +102,8 @@ export default class BridgesAppExample extends Component {
           );
       } else {
           return (
-           <View>
-               <Text>Just a moment :)</Text>
+           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+               <Text> Connecting to server... </Text>
            </View>
         );
       }

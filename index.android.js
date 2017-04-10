@@ -10,25 +10,27 @@ import {
   StyleSheet,
   ScrollView,
   Navigator,
+  TabBarIOS,
   Text,
   View
 } from 'react-native';
-
-import TabNavigator from 'react-native-tab-navigator';
 
 import PersonShowScreen from './app/screens/PersonShowScreen'
 import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 import LoginScreen from './app/screens/LoginScreen'
+import Main from './app/screens/Main'
+import SignUpScreen from './app/screens/SignUpScreen'
+
+var bridges_client = require('./app/bridges_client');
 
 export default class BridgesAppExample extends Component {
   constructor() {
     super();
-    this.state = {selectedTab: 'tabOne'}
-  }
-
-  setTab(tabId) {
-    this.setState({selectedTab: tabId})
+    this.state = {
+        initialIdent: "Login",
+        loading: true
+    };
   }
 
   _renderScene(route, navigator) {
@@ -59,6 +61,16 @@ export default class BridgesAppExample extends Component {
             <LoginScreen
                 {...globalNavigatorProps} />
         )
+      case "Main":
+        return (
+            <Main
+                {...globalNavigatorProps} />
+        )
+      case "SignUp":
+        return (
+            <SignUpScreen
+                {...globalNavigatorProps} />
+        )
       default:
         return (
         <LoginScreen
@@ -67,54 +79,35 @@ export default class BridgesAppExample extends Component {
     }
   }
 
+  componentWillMount() {
+      bridges_client.getUserInfo(function(response) {
+         if (response.email) {
+             this.setState({initialIdent: "Main"});
+         }
+         this.setState({loading: false});
+      }.bind(this));
+
+
+  }
+
+
   render() {
-      let hiddenTabBarHeight = 0;
-      let hideTabBar = null;
-      let hideTabBarSceneStyle = null;
-
-      if (this.state.selectedTab === 'tabOne') {
-          hideTabBar = { height: hiddenTabBarHeight, overflow: 'hidden' };
-          hideTabBarSceneStyle = { paddingBottom: hiddenTabBarHeight };
+      // If we have the proper token saved, lets just login
+      if (!this.state.loading) {
+          return (
+            <Navigator
+            initialRoute={{ident: this.state.initialIdent}}
+            ref="appNavigator"
+            renderScene={this._renderScene} />
+          );
+      } else {
+          return (
+           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+               <Text> Connecting to server... </Text>
+           </View>
+        );
       }
-
-      return (
-          <TabNavigator
-              tabBarStyle={hideTabBar}
-              sceneStyle={hideTabBarSceneStyle} >
-
-              <TabNavigator.Item
-                  systemIcon="login"
-                  selected={this.state.selectedTab == 'tabOne'}
-                  onPress={() => this.setTab('tabOne')}>
-                  <Navigator
-                      initialRoute={{ident: "Login"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-             </TabNavigator.Item>
-
-             <TabNavigator.Item
-                  systemIcon="search"
-                  selected={this.state.selectedTab == 'tabTwo'}
-                  onPress={() => this.setTab('tabTwo')}>
-                  <Navigator
-                      initialRoute={{ident: "PeopleIndex"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-            </TabNavigator.Item>
-
-            <TabNavigator.Item
-                  systemIcon="contacts"
-                  selected={this.state.selectedTab == 'tabThree'}
-                  onPress={() => this.setTab('tabThree')}
-                  apiClient = {this.APIClient}>
-                  <Navigator
-                      initialRoute={{ident: "Profile"}}
-                      ref="appNavigator"
-                      renderScene={this._renderScene} />
-                  </TabNavigator.Item>
-       </TabNavigator>
-      );
-     }
+    }
   }
 
 AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);
