@@ -24,7 +24,7 @@ import SignUpScreen from './app/screens/SignUpScreen'
 
 var bridges_client = require('./app/bridges_client');
 
-export default class BridgesAppExample extends Component {
+export default class Employable extends Component {
   constructor() {
     super();
     this.state = {
@@ -110,4 +110,4 @@ export default class BridgesAppExample extends Component {
     }
   }
 
-AppRegistry.registerComponent('BridgesAppExample', () => BridgesAppExample);
+AppRegistry.registerComponent('Employable', () => Employable);

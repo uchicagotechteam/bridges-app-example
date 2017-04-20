@@ -85,6 +85,7 @@ function _getData(endpoint, callback, method) {
             'headers': headers
         })
         .then((response) => {
+            console.log(response);
             return response.json();
         })
         .then((responseJson) => {
