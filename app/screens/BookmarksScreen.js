@@ -21,6 +21,7 @@ import StatusBarBackground from '../components/StatusBarBackground'
 
 var bridges_client = require('../bridges_client');
 var bookmark_manager = require('../bookmark_manager');
+var settings = require('./settings');
 
 const response = [];
 
@@ -96,13 +97,26 @@ constructor(props) {
   }
 
   _renderPersonRow(question) {
+      var profilePicture;
+      if (question.owner.profile_picture) {
+          profilePicture = (
+              <Image source={{uri: settings.API_ROOT + question.owner.profile_picture}} style={styles.photo} />
+          );
+      } else {
+          profilePicture = (
+              <Image source={require('./face.jpg')} style={styles.photo} />
+          );
+      }
+
     return (
       <TouchableOpacity style={styles.personRow} onPress={(event) => this._navigateToPersonShow(question) }>
         <Text style={styles.questionTags}> Tags: {this._showTags(question.tags)}</Text>
         <Text style={styles.questionTitle}> {question.title}</Text>
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
-          <Image source={require('./face.jpg')} style={styles.photo} />
-          <Text style={{fontSize:12, marginTop: 10}}> Rachel Mills </Text>
+          {profilePicture}
+          <Text style={{fontSize:12, marginTop: 10}}>
+              {question.owner.first_name} {question.owner.last_name}
+          </Text>
         </View>
       </TouchableOpacity>
     )

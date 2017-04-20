@@ -71,10 +71,26 @@ constructor(props) {
           this.setState({
               profile: response
           });
+          console.log(response);
       }.bind(this));
   }
 
   render() {
+      var profilePicture;
+      if (this.state.profile.profile_picture) {
+          profilePicture = (
+              <Image source={{
+                      uri: settings.API_ROOT + this.state.profile.profile_picture
+                  }}
+                  style={styles.photo} />
+          );
+      } else {
+          profilePicture = (
+              <Image source={require('./face.jpg')} style={styles.photo} />
+          );
+      }
+
+
     return (
     <ViewContainer>
     <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -83,7 +99,7 @@ constructor(props) {
         Profile </Text>
      <ScrollView>
         <View style={{backgroundColor:"white"}}>
-          <Image source={require('./face.jpg')} style={styles.photo} />
+          {profilePicture}
           <Text style={{fontSize: 30, marginTop: 15, textAlign: 'center', fontWeight: 'bold'}}>
               {this.state.profile.first_name} {this.state.profile.last_name} </Text>
           <Text style={{fontSize: 20, textAlign: 'center'}}> {this.state.profile.email} </Text>

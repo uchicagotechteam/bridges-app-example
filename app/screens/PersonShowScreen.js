@@ -17,6 +17,7 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 var bookmark_manager = require('../bookmark_manager');
+var settings = require('./settings');
 
 export default class PersonShowScreen extends Component {
   constructor(props) {
@@ -59,6 +60,17 @@ export default class PersonShowScreen extends Component {
     ? require('./images/bookmark_active.jpg')
     : require('./images/bookmark_inactive.jpg');
 
+    var profilePicture;
+    if (this.props.question.owner.profile_picture) {
+        profilePicture = (
+            <Image source={{uri: settings.API_ROOT + this.props.question.owner.profile_picture}} style={styles.photo} />
+        );
+    } else {
+        profilePicture = (
+            <Image source={require('./face.jpg')} style={styles.photo} />
+        );
+    }
+
     return (
      <View>
         <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
@@ -76,8 +88,10 @@ export default class PersonShowScreen extends Component {
         <View style={{flexDirection:"row", marginTop: 5, marginBottom: 5,
             justifyContent: "space-between"}}>
             <View style={{flexDirection:"row"}}>
-                <Image source={require('./face.jpg')} style={styles.photo} />
-                <Text style={{fontSize:15, marginTop: 30}}> Rachel Mills </Text>
+                {profilePicture}
+                <Text style={{fontSize:15, marginTop: 30}}>
+                    {this.props.question.owner.first_name} {this.props.question.owner.last_name}
+                </Text>
             </View>
           <TouchableOpacity style={{marginTop: 5, marginBottom: 5}} onPress={this.toggleBookmark.bind(this)}>
               <Image source={bookmarkImage} style={styles.bookmarkIcon} />
