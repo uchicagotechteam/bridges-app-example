@@ -62,12 +62,13 @@ export default class PersonShowScreen extends Component {
 
     var profilePicture;
     if (this.props.question.owner.profile_picture) {
+        console.log(this.props.question.owner.profile_picture);
         profilePicture = (
-            <Image source={{uri: settings.API_ROOT + this.props.question.owner.profile_picture}} style={styles.photo} />
+            <Image source={{uri: this.props.question.owner.profile_picture}} style={styles.photo} />
         );
     } else {
         profilePicture = (
-            <Image source={require('./face.jpg')} style={styles.photo} />
+            <Image source={require('./profile_placeholder.png')} style={styles.photo} />
         );
     }
 

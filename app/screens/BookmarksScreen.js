@@ -104,7 +104,7 @@ constructor(props) {
           );
       } else {
           profilePicture = (
-              <Image source={require('./face.jpg')} style={styles.photo} />
+              <Image source={require('./profile_placeholder.png')} style={styles.photo} />
           );
       }
 
