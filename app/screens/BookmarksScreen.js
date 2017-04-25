@@ -98,9 +98,10 @@ constructor(props) {
 
   _renderPersonRow(question) {
       var profilePicture;
+      console.log('pictcha', question.owner.profile_picture);
       if (question.owner.profile_picture) {
           profilePicture = (
-              <Image source={{uri: settings.API_ROOT + question.owner.profile_picture}} style={styles.photo} />
+              <Image source={{uri: question.owner.profile_picture}} style={styles.photo} />
           );
       } else {
           profilePicture = (

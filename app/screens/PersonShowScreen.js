@@ -17,7 +17,6 @@ import {
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
 var bookmark_manager = require('../bookmark_manager');
-var settings = require('./settings');
 
 export default class PersonShowScreen extends Component {
   constructor(props) {
@@ -62,7 +61,6 @@ export default class PersonShowScreen extends Component {
 
     var profilePicture;
     if (this.props.question.owner.profile_picture) {
-        console.log(this.props.question.owner.profile_picture);
         profilePicture = (
             <Image source={{uri: this.props.question.owner.profile_picture}} style={styles.photo} />
         );
@@ -85,6 +83,9 @@ export default class PersonShowScreen extends Component {
         </View>
         <Text style={{marginTop: 20, marginLeft: 15, fontSize: 35, fontWeight: 'bold'}}>
             {this.props.question.title}
+        </Text>
+        <Text style={styles.description}>
+            {this.props.question.description}
         </Text>
         <View style={{flexDirection:"row", marginTop: 5, marginBottom: 5,
             justifyContent: "space-between"}}>
@@ -119,8 +120,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-      marginTop: 20,
-      marginLeft: 15
+      margin: 10
   },
 
   photo: {

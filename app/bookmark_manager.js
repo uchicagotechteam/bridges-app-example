@@ -25,7 +25,9 @@ function addBookmark(question) {
     retrieveBookmarks(function(bookmarks) {
          if (bookmarks) {
              if (!containsQuestion(question.id, bookmarks)) {
-                 SInfo.setItem('bookmarks', JSON.stringify(bookmarks.concat(question)), {
+                 // Adds a question to the front of the bookmarks list
+                 bookmarks.unshift(question)
+                 SInfo.setItem('bookmarks', JSON.stringify(bookmarks), {
                      sharedPreferencesName: 'shared_preferences'
                  });
              }

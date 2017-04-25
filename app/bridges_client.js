@@ -85,7 +85,6 @@ function _getData(endpoint, callback, method) {
             'headers': headers
         })
         .then((response) => {
-            console.log(response);
             return response.json();
         })
         .then((responseJson) => {
@@ -124,7 +123,6 @@ function getBookmarks(callback) {
 
 function setBookmarks(bookmarkIds, callback) {
     // Sets bookmarks on the server for the user
-    console.log({bookmarks: bookmarkIds});
     return _setData('bookmarks/', {bookmarks: bookmarkIds}, callback);
 }
 

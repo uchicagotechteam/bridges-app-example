@@ -71,7 +71,6 @@ constructor(props) {
           this.setState({
               profile: response
           });
-          console.log(response);
       }.bind(this));
   }
 

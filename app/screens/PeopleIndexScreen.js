@@ -25,6 +25,8 @@ var bridges_client = require('../bridges_client');
 var bookmark_manager = require('../bookmark_manager');
 var SearchBar = require('react-native-search-bar');
 
+var settings = require('../../settings');
+
 const response = [];
 
 export default class PeopleIndexScreen extends Component {
@@ -48,6 +50,13 @@ constructor(props) {
   _syncBookmarksWithServer() {
       bridges_client.getRemoteBookmarks(function(response) {
           var bookmarkedQuestions = JSON.parse(response.bookmarks);
+          // Add the host url to the bookmarks
+          for (var i = 0; i < bookmarkedQuestions.length; i++) {
+              bookmarkedQuestions[i].owner.profile_picture = (
+                  settings.API_ROOT + bookmarkedQuestions[i].owner.profile_picture
+              );
+          }
+
           bookmark_manager.writeSetOfBookmarks(bookmarkedQuestions);
       }.bind(this));
   }
