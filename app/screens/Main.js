@@ -91,6 +91,7 @@ export default class Main extends Component {
       case "SignUp":
         return (
             <SignUpScreen
+                signUpInfo={route.signUpInfo}
                 {...globalNavigatorProps} />
         )
 

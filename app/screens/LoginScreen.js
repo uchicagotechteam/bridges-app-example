@@ -58,7 +58,8 @@ export default class LoginScreen extends Component {
 
   _navigateToSignUp() {
     this.props.navigator.push({
-      ident: "SignUp"
+      ident: "SignUp",
+      currentPage: 0
     });
   }
 

@@ -23,6 +23,7 @@ import Main from './app/screens/Main'
 import SignUpScreen from './app/screens/SignUpScreen'
 
 var bridges_client = require('./app/bridges_client');
+var settings = require('./settings');
 
 export default class Employable extends Component {
   constructor() {
@@ -69,7 +70,9 @@ export default class Employable extends Component {
       case "SignUp":
         return (
             <SignUpScreen
-                {...globalNavigatorProps} />
+                {...globalNavigatorProps}
+                pageLayout={settings.signUpLayout}
+                currentPage={route.currentPage}/>
         )
       default:
         return (
