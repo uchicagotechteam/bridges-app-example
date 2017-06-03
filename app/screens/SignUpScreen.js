@@ -174,11 +174,16 @@ export default class SignUpScreen extends Component {
   }
 
   _navigateToSignUp(pageIndex) {
-      console.log('navigating', this.state.userData);
       this.props.navigator.push({
           ident: "SignUp",
           currentPage: pageIndex,
           signUpInfo: this.state.userData
+      });
+  }
+
+  _navigateToLogin() {
+      this.props.navigator.push({
+         ident: "Login"
       });
   }
 
@@ -237,6 +242,7 @@ export default class SignUpScreen extends Component {
               field = (
                   <View style={styles.inputItem} key={'master_view_' + j}>
                       <Text style={styles.inputLabel} key={'text_' + j}>{inputFieldData.longName}</Text>
+                       <Image source={require('./images/profile_placeholder.png')} style={styles.photo} />
                   </View>
               );
           } else {
@@ -306,8 +312,18 @@ export default class SignUpScreen extends Component {
     return (
         <ViewContainer>
             <StatusBarBackground style={{backgroundColor: '#00857c'}}/>
-            <Text style={{height:40, textAlign: "center", backgroundColor: "#00857c",
-                fontSize: 22, color: "white", fontWeight: "bold"}}> Sign Up </Text>
+            <View style={{flexDirection: 'row', backgroundColor: "#00857c",
+                height: 40, padding: 0, justifyContent: 'space-around'}}>
+                <TouchableOpacity style={{flexDirection: 'row', marginLeft: 0, marginTop: 2, marginRight: 10}}onPress={this._navigateToLogin.bind(this)}>
+                    <Image source={require('./images/back_button.png')} style={styles.backButton}/>
+                    <Text style={{fontSize: 20, color: "white", textAlign: "center",
+                        fontWeight: "bold", marginLeft: 3, marginTop: 2}}>login</Text>
+                    <View style={{marginRight: 10}}></View>
+                </TouchableOpacity>
+                <Text style={{fontSize: 22, color: "white", textAlign: "center",
+                    fontWeight: "bold", marginTop: 2}}> SignUp </Text>
+                <View style={{width: 90}}></View>
+            </View>
             <TouchableWithoutFeedback style={styles.container} onPress={ () => { dismissKeyboard() } }>
                 <ScrollView>
                     <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
@@ -396,7 +412,21 @@ const styles = StyleSheet.create({
 
     dateWrapper: {
         paddingVertical: 10
-    }
+    },
+
+    photo: {
+        height: 180,
+        width: 180,
+        borderRadius: 90,
+        marginTop: 20
+    },
+
+    backButton: {
+        height: 20,
+        width: 20,
+        marginTop: 5,
+        marginLeft: 5,
+    },
 });
 
 module.exports = SignUpScreen
