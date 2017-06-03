@@ -112,8 +112,8 @@ constructor(props) {
           <Text style = {styles.info}> {this.state.profile.ethnicity} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./images/language.png')} style={styles.icon} />
-          <Text style = {styles.info}> English </Text>
+          <Icon name="wpexplorer" size={28} color="#000" style={styles.icon} />
+          <Text style = {styles.info}> {this.state.profile.disabilities} </Text>
         </View>
         <TouchableOpacity style={styles.bottomArea} onPress={this._logout.bind(this)} activeOpacity={.5}>
             <View style={styles.bottomButton}>
