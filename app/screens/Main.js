@@ -1,7 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * Bridges from School to Work Mobile App
+ * Originally created by TechTeam at the University of Chicago
+ * Contact Emily Daw at emily.daw@marriott.com
  */
 
 import React, { Component } from 'react';
