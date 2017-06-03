@@ -73,7 +73,8 @@ export default class Employable extends Component {
                 {...globalNavigatorProps}
                 pageLayout={settings.signUpLayout}
                 currentPage={route.currentPage}
-                 />
+                signUpInfo={route.signUpInfo}
+             />
         )
       default:
         return (

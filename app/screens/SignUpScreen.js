@@ -17,6 +17,7 @@ import {
   Image,
   TextInput
 } from 'react-native';
+
 import ViewContainer from '../components/ViewContainer';
 import StatusBarBackground from '../components/StatusBarBackground';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -44,9 +45,6 @@ export default class SignUpScreen extends Component {
   constructor(props) {
       super(props)
 
-      console.log(props.pageLayout);
-      console.log(props.currentPage);
-
       this.state = {
           userData: props.signUpInfo,
           pageInputs: props.pageLayout[props.currentPage],
@@ -56,44 +54,55 @@ export default class SignUpScreen extends Component {
       this.state.inputs = {
           'firstName': {
               inputType: 'text',
-              placeholder: 'Barry'
+              placeholder: 'Barry',
+              longName: 'First Name'
           },
           'lastName': {
               inputType: 'text',
-              placeholder: 'Allen'
+              placeholder: 'Allen',
+              longName: 'Last Name'
           },
           'email': {
               inputType: 'text',
-              placeholder: 'example@bridges.org'
+              placeholder: 'example@bridges.org',
+              longName: 'Email',
           },
           'gender': {
               inputType: 'text',
-              placeholder: 'Female'
+              placeholder: 'Female',
+              longName: 'Gender'
           },
           'disability': {
               inputType: 'text',
-              placeholder: 'Deaf/Hard of Hearing'
+              placeholder: 'Deaf/Hard of Hearing',
+              longName: 'Disability'
           },
           'ethnicity': {
               inputType: 'text',
-              placeholder: 'Asian American/Pacific Islander'
+              placeholder: 'Asian American/Pacific Islander',
+              longName: 'Ethnicity'
           },
           'currentEmployer': {
               inputType: 'text',
-              placeholder: 'Bridges from School to Work'
+              placeholder: 'Bridges from School to Work',
+              longName: 'Current Employer'
           },
           'dateOfBirth': {
-              inputType: 'date'
+              inputType: 'date',
+              longName: 'Date of Birth'
           },
           'password': {
               inputType: 'text',
-              hideInput: true
+              hideInput: true,
+              longName: 'Password'
           },
           'currentPosition': {
-              inputType: 'text'
+              inputType: 'text',
+              longName: 'Current Position'
           },
           'profilePicture': {
-              inputType: 'image'
+              inputType: 'image',
+              longName: 'Profile Picture'
           }
       };
 
@@ -116,10 +125,10 @@ export default class SignUpScreen extends Component {
 
   _updateField(name) {
       var updateGivenField = function(name) {
-          var toUpdate = {};
+          var userDataToSave = this.state.userData;
           return function(text) {
-              toUpdate[name] = text;
-              this.setState(toUpdate);
+              userDataToSave[name] = text;
+              this.setState({'userData': userDataToSave});
           }.bind(this);
       }.bind(this);
       return updateGivenField(name);
@@ -164,10 +173,12 @@ export default class SignUpScreen extends Component {
     });
   }
 
-  _navigateToSignUp(pageIndex, pageLayout) {
+  _navigateToSignUp(pageIndex) {
+      console.log('navigating', this.state.userData);
       this.props.navigator.push({
           ident: "SignUp",
-          currentPage: pageIndex
+          currentPage: pageIndex,
+          signUpInfo: this.state.userData
       });
   }
 
@@ -186,23 +197,69 @@ export default class SignUpScreen extends Component {
   }
 
   generateInputFields(currentPageInputs) {
-      var signUpTextFields = currentPageInputs.map(function(inputFieldName) {
+      var signUpTextFields = currentPageInputs.map(function(inputFieldName, i) {
           var inputFieldData = this.state.inputs[inputFieldName];
-          return (
-              <View style={styles.inputWrap}>
-                  <Text>{inputFieldName}</Text>
-                  <TextInput
-                      placeholder={inputFieldData.placeholder}
-                      placeholderTextColor={inputFieldData.placeholderTextColor}
-                      style={styles.input}
-                      onChangeText={this._updateField(inputFieldName)}
-                      returnKeyType="next"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      secureTextEntry={!!inputFieldData.hideInput}
-                      />
-              </View>
-          );
+          var j = i.toString();
+
+          var field;
+
+          if (inputFieldData.inputType === 'date') {
+              field = (
+                  <View style={styles.inputItem} key={'master_view_' + j}>
+                      <Text style={styles.inputLabel} key={'text_' + j}>{inputFieldData.longName}</Text>
+                      <View style={styles.dateWrapper} key={'view_' + j}>
+                          <DatePicker
+                           style={{width: 200}}
+                           date={this.state.date}
+                           mode="date"
+                           placeholder="select date"
+                           format="MM-DD-YYYY"
+                           confirmBtnText="Confirm"
+                           cancelBtnText="Cancel"
+                           customStyles={{
+                             dateIcon: {
+                               position: 'absolute',
+                               left: 0,
+                               top: 4,
+                               marginLeft: 0
+                             },
+                             dateInput: {
+                               marginLeft: 36
+                             }
+                             // ... You can check the source to find the other keys.
+                           }}
+                           onDateChange={(date) => {this.setState({date: date})}}
+                         />
+                      </View>
+                  </View>
+              );
+          } else if (inputFieldData.inputType === 'image') {
+              field = (
+                  <View style={styles.inputItem} key={'master_view_' + j}>
+                      <Text style={styles.inputLabel} key={'text_' + j}>{inputFieldData.longName}</Text>
+                  </View>
+              );
+          } else {
+              field = (
+                  <View style={styles.inputItem} key={'master_view_' + j}>
+                      <Text style={styles.inputLabel} key={'text_' + j}>{inputFieldData.longName}</Text>
+                      <View key={'view_' + j} style={styles.inputWrap}>
+                          <TextInput
+                              key={'input_' + j}
+                              value={this.state.userData[inputFieldName]}
+                              style={styles.input}
+                              onChangeText={this._updateField(inputFieldName)}
+                              returnKeyType="next"
+                              autoCapitalize="none"
+                              autoCorrect={false}
+                              secureTextEntry={!!inputFieldData.hideInput}
+                              />
+                      </View>
+                  </View>
+              );
+          }
+
+          return field;
       }.bind(this));
 
       return signUpTextFields;
@@ -224,7 +281,9 @@ export default class SignUpScreen extends Component {
         );
     } else {
         nextButton = (
-            <TouchableOpacity onPress={() => this._navigateToSignUp(this.props.currentPage + 1, this.props.pageLayout)} activeOpacity={.5}>
+            <TouchableOpacity
+                onPress={() => this._navigateToSignUp(this.props.currentPage + 1, this.props.pageLayout)}
+                activeOpacity={.5}>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Next</Text>
                 </View>
@@ -234,7 +293,9 @@ export default class SignUpScreen extends Component {
 
     if (this.props.currentPage != 0) {
         prevButton = (
-            <TouchableOpacity onPress={() => this._navigateToSignUp(this.props.currentPage - 1, this.props.pageLayout)} activeOpacity={.5}>
+            <TouchableOpacity
+                onPress={() => this._navigateToSignUp(this.props.currentPage - 1, this.props.pageLayout)}
+                activeOpacity={.5}>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Previous</Text>
                 </View>
@@ -251,24 +312,26 @@ export default class SignUpScreen extends Component {
                 <ScrollView>
                     <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
                         {textInputs}
-                        {nextButton}
-                        {prevButton}
-                        {signUpButton}
                     </KeyboardAvoidingView>
                 </ScrollView>
             </TouchableWithoutFeedback>
+            <View style={styles.buttonZone}>
+                {prevButton}
+                {nextButton}
+                {signUpButton}
+            </View>
         </ViewContainer>
     );
   }
 }
 
+const colors = {
+    placeholderTextColor: '#d3d3d3'
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-
-    wrapper: {
-      paddingVertical: 30,
     },
 
     personName: {
@@ -291,6 +354,15 @@ const styles = StyleSheet.create({
       marginTop: 30,
     },
 
+    buttonZone: {
+        marginTop: 0,
+        paddingTop: 0,
+    },
+
+    signUpNavButton: {
+        bottom: 0
+    },
+
     buttonText: {
       color: "#FFF",
       fontSize: 18,
@@ -305,14 +377,26 @@ const styles = StyleSheet.create({
     inputWrap: {
         flexDirection: "row",
         marginVertical: 10,
-        height: 40,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        height: 45,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+
+    inputLabel: {
+        fontSize: 20,
+    },
+
+    inputItem: {
+        paddingVertical: 10
     },
 
     bigSelect: {
         fontSize: 17,
         color: "#C0C0C0"
     },
+
+    dateWrapper: {
+        paddingVertical: 10
+    }
 });
 
 module.exports = SignUpScreen

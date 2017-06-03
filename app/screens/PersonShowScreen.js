@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     borderRadius: 25,
   },
-  
+
   bookmarkIcon: {
       height: 50,
       width: 50,
