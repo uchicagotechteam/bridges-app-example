@@ -15,8 +15,8 @@ import {
   View
 } from 'react-native';
 
-import PersonShowScreen from './app/screens/PersonShowScreen'
-import PeopleIndexScreen from './app/screens/PeopleIndexScreen'
+import QuestionDetailScreen from './app/screens/QuestionDetailScreen'
+import QuestionListScreen from './app/screens/QuestionListScreen'
 import ProfileScreen from './app/screens/ProfileScreen'
 import LoginScreen from './app/screens/LoginScreen'
 import Main from './app/screens/Main'
@@ -38,15 +38,15 @@ export default class Employable extends Component {
     var globalNavigatorProps = { navigator }
 
     switch(route.ident) {
-      case "PeopleIndex":
+      case "QuestionList":
         return (
-          <PeopleIndexScreen
+          <QuestionListScreen
             {...globalNavigatorProps} />
         )
 
-      case "PersonShow":
+      case "QuestionDetail":
         return (
-        <PersonShowScreen
+        <QuestionDetailScreen
             {...globalNavigatorProps}
             question = {route.question} />
         )

@@ -18,8 +18,8 @@ import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BookmarksScreen from './BookmarksScreen';
-import PersonShowScreen from './PersonShowScreen';
-import PeopleIndexScreen from './PeopleIndexScreen';
+import QuestionDetailScreen from './QuestionDetailScreen';
+import QuestionListScreen from './QuestionListScreen';
 import ProfileScreen from './ProfileScreen';
 import SignUpScreen from './SignUpScreen';
 import LoginScreen from './LoginScreen';
@@ -62,15 +62,15 @@ export default class Main extends Component {
                 {...globalNavigatorProps} />
         )
 
-      case "PeopleIndex":
+      case "QuestionList":
         return (
-          <PeopleIndexScreen
+          <QuestionListScreen
             {...globalNavigatorProps} />
         )
 
-      case "PersonShow":
+      case "QuestionDetail":
         return (
-        <PersonShowScreen
+        <QuestionDetailScreen
             {...globalNavigatorProps}
             question = {route.question} />
         )
@@ -113,7 +113,7 @@ export default class Main extends Component {
                selected={this.state.selectedTab == 'tabOne'}
                onPress={() => this.setTab('tabOne')}>
                <Navigator
-                   initialRoute={{ident: "PeopleIndex"}}
+                   initialRoute={{ident: "QuestionList"}}
                    ref="appNavigator"
                    renderScene={this._renderScene} />
            </TabNavigator.Item>

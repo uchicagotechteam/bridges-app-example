@@ -85,7 +85,7 @@ constructor(props) {
           );
       } else {
           profilePicture = (
-              <Image source={require('./profile_placeholder.png')} style={styles.photo} />
+              <Image source={require('./images/profile_placeholder.png')} style={styles.photo} />
           );
       }
 
@@ -105,19 +105,19 @@ constructor(props) {
           <View style={{height: 20}}/>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./store.png')} style={styles.icon} />
+          <Image source={require('./images/store.png')} style={styles.icon} />
           <Text style = {styles.info}> {this.state.profile.current_employer} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./tie.png')} style={styles.icon} />
+          <Image source={require('./images/tie.png')} style={styles.icon} />
           <Text style = {styles.info}> {this.state.profile.position} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./time.png')} style={styles.icon} />
+          <Image source={require('./images/time.png')} style={styles.icon} />
           <Text style = {styles.info}> 10 months </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./language.png')} style={styles.icon} />
+          <Image source={require('./images/language.png')} style={styles.icon} />
           <Text style = {styles.info}> English, Spanish </Text>
         </View>
         <TouchableOpacity style={styles.bottomArea} onPress={this._logout.bind(this)} activeOpacity={.5}>

@@ -105,12 +105,12 @@ constructor(props) {
           );
       } else {
           profilePicture = (
-              <Image source={require('./profile_placeholder.png')} style={styles.photo} />
+              <Image source={require('./images/profile_placeholder.png')} style={styles.photo} />
           );
       }
 
     return (
-      <TouchableOpacity style={styles.personRow} onPress={(event) => this._navigateToPersonShow(question) }>
+      <TouchableOpacity style={styles.personRow} onPress={(event) => this._navigateToQuestionDetail(question) }>
         <Text style={styles.questionTags}> Tags: {this._showTags(question.tags)}</Text>
         <Text style={styles.questionTitle}> {question.title}</Text>
         <View style={{flexDirection:"row", marginTop:5, marginBottom:5}}>
@@ -123,10 +123,10 @@ constructor(props) {
     )
   }
 
-  _navigateToPersonShow(question) {
+  _navigateToQuestionDetail(question) {
       bookmark_manager.isBookmarked(question.id, function(bookmarked) {
           this.props.navigator.push({
-              ident: "PersonShow",
+              ident: "QuestionDetail",
               question: question,
               bookmarked: bookmarked,
           });
