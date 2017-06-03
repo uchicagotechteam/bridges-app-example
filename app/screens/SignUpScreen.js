@@ -215,7 +215,7 @@ export default class SignUpScreen extends Component {
                       <View style={styles.dateWrapper} key={'view_' + j}>
                           <DatePicker
                            style={{width: 200}}
-                           date={this.state.date}
+                           date={this.state.userData.dateOfBirth}
                            mode="date"
                            placeholder="select date"
                            format="MM-DD-YYYY"
@@ -231,9 +231,8 @@ export default class SignUpScreen extends Component {
                              dateInput: {
                                marginLeft: 36
                              }
-                             // ... You can check the source to find the other keys.
                            }}
-                           onDateChange={(date) => {this.setState({date: date})}}
+                           onDateChange={this._updateField('dateOfBirth')}
                          />
                       </View>
                   </View>
