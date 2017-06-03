@@ -89,7 +89,7 @@ export default class SignUpScreen extends Component {
           },
           'dateOfBirth': {
               inputType: 'date',
-              longName: 'Date of Birth'
+              longName: 'Birthday'
           },
           'password': {
               inputType: 'text',

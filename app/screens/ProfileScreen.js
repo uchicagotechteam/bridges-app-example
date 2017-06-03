@@ -10,9 +10,10 @@ import {
   Button,
   Alert
 } from 'react-native';
+
 import ViewContainer from '../components/ViewContainer'
 import StatusBarBackground from '../components/StatusBarBackground'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import SInfo from 'react-native-sensitive-info';
 
 const response = []
@@ -107,12 +108,12 @@ constructor(props) {
           <Text style = {styles.info}> {this.state.profile.position} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Image source={require('./images/time.png')} style={styles.icon} />
-          <Text style = {styles.info}> 10 months </Text>
+          <Icon name="user" size={28} color="#000" style={styles.icon} />
+          <Text style = {styles.info}> {this.state.profile.ethnicity} </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Image source={require('./images/language.png')} style={styles.icon} />
-          <Text style = {styles.info}> English, Spanish </Text>
+          <Text style = {styles.info}> English </Text>
         </View>
         <TouchableOpacity style={styles.bottomArea} onPress={this._logout.bind(this)} activeOpacity={.5}>
             <View style={styles.bottomButton}>
